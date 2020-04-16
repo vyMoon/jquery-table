@@ -5,47 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/custom.css">
 </head>
+
 <body>
-    <div id="grid-holder"></div>
+
+    <div class="d-flex justify-content-between w-75">
+        <div class="w-25 input-group mb-3">
+            <input id="searchField" type="text" class="form-control searchField" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
+            </div>
+        </div>
+        <button id="addNewProduct" type="button" class="btn btn-primary align-self-baseline">Add new</button>
+    </div>
+
     <table class="table table-hover w-75 p-3">
-        <thead>
+        <thead id="productsTableHead">
             <tr>
-                <!-- <th class="w-50 p-3" scope="col">Name</th> -->
-                <th scope="col">Name</th>
-                <th scope="col">Count</th>
+                <th scope="col">
+                    <a id="name" data-sorting="name" href="#">Name</a>
+                    <svg id="sortingByNameReverse" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                    <svg id="sortingByName" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                </th>
+                <th scope="col">
+                    <a id="name" data-sorting="count" href="#">Count</a>
+                    <svg id="sortingByCountReverse" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                    <svg id="sortingByCount" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                </th>
                 <th scope="col">Price</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
-        <tbody id="productsTableBody">
-            <!-- <tr>
-                <td>Product</td>
-                <td>$1,000.25</td>
-                <td class="d-flex justify-content-around">
-                    <button type="button" class="btn btn-info">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Another Product</td>
-                <td>$500.30</td>
-                <td class="d-flex justify-content-around">
-                    <button type="button" class="btn btn-info">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </td> -->
-            </tr>
-            <!-- <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr> -->
-        </tbody>
+
+        <tbody id="productsTableBody"></tbody>
+
     </table>
+
 </body>
 
+<script src="./js/components/SuperApp.js"></script>
+<script src="./js/components/App.js"></script>
+
+<script src="./js/config.js"></script>
+
+<script src="./js/jquery/jquery-3.5.0.min.js"></script>
 <script src="./js/lodash/lodash.min.js"></script>
-<script src="./js/templates/table_body.js"></script>
+
+<script src="./js/templates/table_body.js"></script> <!-- сейчас не исползуется вся информация в коасе -->
+
 <script src="./js/index.js"></script>
 
 </html>
