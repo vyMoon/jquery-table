@@ -2,19 +2,6 @@
 
 class SuperApp {
 
-    visibiliter(bool, container, ...targets) {
-        // console.log(container)
-        // let fn;
-        const cont = container === 0 ? document.querySelector('body') : container,
-            fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
-
-        targets.forEach( (el) => {
-            cont.querySelectorAll(el).forEach( (elem) => {
-                fn.call(elem, 'hidden', 'true')
-            })
-        })
-    }
-
     onClickSorting(newRule, target) {
         const{rule} = this.state.sorting
 
@@ -29,8 +16,6 @@ class SuperApp {
     }
 
     priceMaker(num, currency, delimiter) {
-        // const currency = '$';
-        // console.log(num, currency)
         const pieces = num.toFixed(2).split('.')
     
         if (pieces[0].length > 3) {
@@ -46,9 +31,13 @@ class SuperApp {
 
     renderTableBody(construction, items, elementId) {
         let tmpl = _.template( construction );
-        document.getElementById(elementId).innerHTML = tmpl({
-            list: items
-        });
+        // раньше в кчестве селектора в elemtntId была строка без # был добавлен этот символ для рабты в джквери
+        // нужно или пердать без него или исользовать другую функцию если все нужно будет вернуть
+        // document.getElementById(elementId).innerHTML = tmpl({ 
+        //     list: items
+        // });
+
+        $( elementId ).html( tmpl( {list: items} ) );
     }
 
     sorter(items, field, bool) {
@@ -67,6 +56,17 @@ class SuperApp {
         if ( !bool ) {
             this.reverse()
         }
+    }
+
+    visibiliter(bool, container, ...targets) {
+        const cont = container === 0 ? document.querySelector('body') : container,
+            fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
+
+        targets.forEach( (el) => {
+            cont.querySelectorAll(el).forEach( (elem) => {
+                fn.call(elem, 'hidden', 'true')
+            })
+        })
     }
 
 }

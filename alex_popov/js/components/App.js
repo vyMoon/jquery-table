@@ -44,12 +44,13 @@ class App extends SuperApp {
 
             this.visibiliter(false, 0, '.iconSorting');
             this.visibiliter(true, document.querySelector(`.${rule}`), selector);
+            // this.visibiliter(true, $(`.${rule}`), selector);
         }
     }
 
     renderTableBody(elementId) {
         const {rule, direction} = this.state.sorting
-        let items = this.state.items.slice();
+        const items = this.state.items.slice();
         // console.log(this.sortingMarkersRender(rule, direction))
 
         if (rule !== '') {
@@ -57,9 +58,6 @@ class App extends SuperApp {
             this.sorter.call(items, items, rule, direction)
             this.sortingMarkersRender(rule, direction)
         }
-        // console.log(items)
-        // rule === '' ? true : items = this.sorter(items, rule, direction);
-
         super.renderTableBody(this.tableBodyConstruction, items, elementId);
     }
 }
