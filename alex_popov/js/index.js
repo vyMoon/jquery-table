@@ -1,21 +1,17 @@
-const application = new App(config.key, config.fileId);
+const {key, fileId, currency, priceDelimiter} = config;
+// console.log(key, fileId, currency, priceDelimiter)
+
+const application = new App(key, fileId, currency, priceDelimiter);
+// console.log(application)
 
 application.renderTableBody('productsTableBody')
-
-// console.log( application );
-
-// let tmpl = _.template( table );
-// document.getElementById('productsTableBody').innerHTML = tmpl({
-//     list: application.state.items
-// });
 
 document.querySelector('#productsTableHead').addEventListener('click', (ev) => {
     ev.preventDefault()
     // console.log('table head');
-    // console.log(ev.target.dataset.sorting )
-    application.onClickSorting(ev.target.dataset.sorting, 'productsTableBody')
-    // console.log(application.state.sorting)
-    // application.renderTableBody('productsTableBody')
+    if (ev.target.dataset.sorting) {
+        application.onClickSorting(ev.target.dataset.sorting, 'productsTableBody', ev.target.parentElement)
+    }
 })
 
 document.querySelector('#productsTableBody').addEventListener('click', (ev) => {

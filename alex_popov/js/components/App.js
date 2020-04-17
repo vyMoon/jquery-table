@@ -1,8 +1,11 @@
 class App extends SuperApp {
-    constructor(key, fileId) {
+    constructor(key, fileId, currency, priceDelimiter) {
         super();
         this.fileId = fileId;
         this.key = key;
+
+        this.currency = currency;
+        this.priceDelimiter = priceDelimiter;
 
         this.state = {
             items: products.slice(),
@@ -25,35 +28,34 @@ class App extends SuperApp {
         <% }) %>'
     }
 
-    onClickSorting(newRule, elementId) {
-        // // super.onClickSorting(newRule, this.state.sorting)
-        // // console.log('-------------------------------')
-        // const{rule} = this.state.sorting
-        // // console.log(rule, newRule, this.state.sorting)
-        // if (rule === '') {
-        //     // console.log('empty str')
-        //     this.state.sorting.rule = newRule
-        //     // console.log(this.state.sorting)
-        // } else if (newRule === rule) {
-        //     // console.log('equ')
-        //     this.state.sorting.direction = !this.state.sorting.direction
-        // } else if (newRule !== rule) {
-        //     // console.log('another')
-        //     this.state.sorting.rule = newRule;
-        //     this.state.sorting.direction = true;
-        // }
-        super.onClickSorting(newRule)
+    onClickSorting(newRule, elementId, target) {
+        super.onClickSorting(newRule, target);
         this.renderTableBody(elementId);
+    }
+
+    priceMaker(num) {
+        return super.priceMaker(num, this.currency, this.priceDelimiter)
+    }
+
+    sortingMarkersRender(rule, direction) {
+        if (rule !== '') {
+            // console.log(rule, direction)
+            const selector = direction ? '.iconSortingDirect': '.iconSortingReverse' ;
+
+            this.visibiliter(false, 0, '.iconSorting');
+            this.visibiliter(true, document.querySelector(`.${rule}`), selector);
+        }
     }
 
     renderTableBody(elementId) {
         const {rule, direction} = this.state.sorting
         let items = this.state.items.slice();
-        // console.log(rule, direction)
+        // console.log(this.sortingMarkersRender(rule, direction))
 
         if (rule !== '') {
             // console.log('sort')
             this.sorter.call(items, items, rule, direction)
+            this.sortingMarkersRender(rule, direction)
         }
         // console.log(items)
         // rule === '' ? true : items = this.sorter(items, rule, direction);
