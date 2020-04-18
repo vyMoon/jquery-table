@@ -28,12 +28,11 @@
 }
 
 .modalAddition {
-    width: 400px;
-    position: fixed; 
+    /* width: 400px; */
+    /* position: fixed; 
     top: 0;
-    left: 50%;
-    /* margin-top: -100px; */
-    margin-left: -200px;
+    left: 50%; */
+    /* margin-left: -200px; */
 }
 
 .displayNone {
@@ -47,4 +46,8 @@
 
 .productForm {
     width: 500px;
+}
+
+.orange {
+    background-color: red;
 }
