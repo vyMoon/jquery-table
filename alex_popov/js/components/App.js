@@ -72,12 +72,12 @@ class App extends SuperApp {
             // console.log(this)
             $('#deletedContent').text(this.state.items[index].name)
             $('.darker').removeClass('displayNone')
-            $('.modalConfirmation').removeClass('displayNone')
+            $('.MC-container').removeClass('displayNone')
 
             const solve = () => {
                 console.log('ckikc')
                 $('.darker').addClass('displayNone')
-                $('.modalConfirmation').addClass('displayNone')
+                $('.MC-container').addClass('displayNone')
                 $('#rejectDel').off('click', reject)
                 $('#solveDel').off('click', solve)
                 resolve(index)
@@ -86,7 +86,7 @@ class App extends SuperApp {
             function reject() {
                 console.log('reject')
                 $('.darker').addClass('displayNone')
-                $('.modalConfirmation').addClass('displayNone')
+                $('.MC-container').addClass('displayNone')
                 $('#rejectDel').off('click', reject)
                 $('#solveDel').off('click', solve)
             }
