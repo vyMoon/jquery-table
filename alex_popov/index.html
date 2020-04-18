@@ -56,46 +56,46 @@
         </div>
     </div>
 
-    <div class=" modalAddition bg-light d-flex flex-column rounded-lg px-5 py-5" >
+    <div class=" modalAddition bg-light d-flex flex-column rounded-lg px-2 py-2" >
         <h4 id="prodictDetails">Product Name</h4>
         <form class="border-top">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                <input type="text" class="form-control form-control-sm" id="name" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
               <label for="email">Supplier email</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+              <input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp">
               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="count">Count</label>
-                <input type="text" class="form-control" id="count" aria-describedby="emailHelp">
+                <input type="text" class="form-control form-control-sm" id="count" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="text" class="form-control" id="price" aria-describedby="emailHelp">
+                <input type="text" class="form-control form-control-sm" id="price" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
 
             <div class="">
                 <div>
-                    <label class="" for="inlineFormCustomSelect">Delivery:</label>
+                    <label class="" for="countriesSelector">Delivery:</label>
                 </div>
-                <div>
-                    <div class="col-auto my-1 pr-4">
+                <div class="d-flex flex-row row">
+                    <div class="my-1 mr-4 col">
                         <!-- <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Delivery:</label> -->
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                        <select class="form-control form-control-sm" id="countriesSelector">
                             <option selected>Countries...</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select>
                     </div>
-                    <div class="form-cities col-auto my-1 overflow-auto w-50">
-                        <div class="custom-control custom-checkbox mr-sm-2 d-flex flex-column">
+                    <div class="form-cities col my-1 overflow-auto pl-4">
+                        <div class="custom-checkbox d-flex flex-column">
                             <div class="border-bottom">
                                 <input type="checkbox" class="custom-control-input" id="selectAll">
                                 <label class="custom-control-label" for="selectAll">Slect all</label>
@@ -103,7 +103,7 @@
                             <div id="deliveryCities">
                                 <div>
                                     <input type="checkbox" class="custom-control-input" id="4">
-                                    <label class="custom-control-label" for="4">3</label>
+                                    <label class="custom-control-label" for="4">kazakhstan</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" class="custom-control-input" id="ooo">
@@ -135,10 +135,11 @@
 
 
 
-
+            <div class="d-flex justify-content-around">
             <button type="submit" class="btn btn-primary">Edit</button>
             <button type="submit" class="btn btn-primary">Cancel</button>
-          </form>
+            </div>
+        </form>
     </div>
 
 </body>
