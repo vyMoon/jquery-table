@@ -13,9 +13,10 @@
     <div class="d-flex justify-content-between w-75">
         <div class="w-25 input-group mb-3">
             <input id="searchField" type="text" class="form-control searchField" placeholder="Product name" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
-            </div>
+            <!-- <div class="input-group-append">
+                <button data-action="del" class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
+            </div> -->
+            <button data-action="del" class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
         </div>
         <button id="addNewProduct" type="button" class="btn btn-primary align-self-baseline">Add new</button>
     </div>
@@ -33,7 +34,7 @@
                     <svg class="iconSorting iconSortingReverse" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
                     <svg class="iconSorting iconSortingDirect" hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
                 </th>
-                <th scope="col">Price</th>
+                <th scope="col" class="w-25">Price</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -41,6 +42,104 @@
         <tbody id="productsTableBody"></tbody>
 
     </table>
+
+
+
+    <div class="screenFixed darker"></div>
+    <div class="displayNone modalConfirmation d-flex flex-column rounded text-white " >
+        <h4 class="mx-auto">You are going to delete </h4>
+        <h2 class="mx-auto" id="deletedContent">Example</h2>
+        <h4 class="mx-auto">are you shure?</h4>
+        <div class="modalConfirmation-buttons d-flex justify-content-around mt-4 px-5">
+            <button id="rejectDel" type="button" class="btn btn-success w-25">Cancel</button>
+            <button id="solveDel" type="button" class="btn btn-danger w-25">Delete</button>
+        </div>
+    </div>
+
+    <div class=" modalAddition bg-light d-flex flex-column rounded-lg px-5 py-5" >
+        <h4 id="prodictDetails">Product Name</h4>
+        <form class="border-top">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="email">Supplier email</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="count">Count</label>
+                <input type="text" class="form-control" id="count" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" class="form-control" id="price" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="">
+                <div>
+                    <label class="" for="inlineFormCustomSelect">Delivery:</label>
+                </div>
+                <div>
+                    <div class="col-auto my-1 pr-4">
+                        <!-- <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Delivery:</label> -->
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <option selected>Countries...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-cities col-auto my-1 overflow-auto w-50">
+                        <div class="custom-control custom-checkbox mr-sm-2 d-flex flex-column">
+                            <div class="border-bottom">
+                                <input type="checkbox" class="custom-control-input" id="selectAll">
+                                <label class="custom-control-label" for="selectAll">Slect all</label>
+                            </div>
+                            <div id="deliveryCities">
+                                <div>
+                                    <input type="checkbox" class="custom-control-input" id="4">
+                                    <label class="custom-control-label" for="4">3</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="custom-control-input" id="ooo">
+                                    <label class="custom-control-label" for="ooo">3</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="custom-control-input" id="fff">
+                                    <label class="custom-control-label" for="fff">3</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="custom-control-input" id="ddd">
+                                    <label class="custom-control-label" for="ddd">3</label>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+
+            
+
+
+
+
+
+
+
+
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <button type="submit" class="btn btn-primary">Cancel</button>
+          </form>
+    </div>
 
 </body>
 
@@ -50,6 +149,8 @@
 <script src="./js/config.js"></script>
 
 <script src="./js/jquery/jquery-3.5.0.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+
 <script src="./js/lodash/lodash.min.js"></script>
 
 <script src="./js/templates/table_body.js"></script> <!-- сейчас не исползуется вся информация в коасе -->

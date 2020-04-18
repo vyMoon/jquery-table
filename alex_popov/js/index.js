@@ -2,7 +2,7 @@ const {key, fileId, currency, priceDelimiter} = config;
 // console.log(key, fileId, currency, priceDelimiter)
 
 const application = new App(key, fileId, currency, priceDelimiter);
-console.log($('.table'))
+// console.log($('.table'))
 
 $( () => {
     application.renderTableBody('#productsTableBody');
@@ -30,10 +30,23 @@ $('#productsTableHead').click( (ev) => {
 //     }
 // })
 
-$('#productsTableBody').click( (ev) => {
+$('#productsTableBody').on('click', 'a', onDel);
+$('#productsTableBody').on('click', 'button', onDel);
+
+function onDel(ev) {
     ev.preventDefault();
-    console.log(ev.target);
-});
+
+    if($(this).data('action')) {
+        const id = $(this).data('id')
+        const action = $(this).data('action')
+        // console.log(id, action)
+        if (action === 'delete') {
+            // console.log('delete')
+            // application.deleteItem.call(application, id)
+            application.deleteItem(id)
+        }
+    }
+}
 
 // document.querySelector('#productsTableBody').addEventListener('click', (ev) => {
 //     ev.preventDefault();
@@ -50,9 +63,10 @@ $('#addNewProduct').click( (ev) => {
 //     console.log('add new product');
 // })
 
-$('.searchProductBtn').click( (ev) => {
+$('.searchProductBtn').on('click', 'button',(ev) => {
     ev.preventDefault();
     // console.log('seatch btn', ev.target, ev.curentTarget)
+    console.log($(this).data('action'))
 });
 
 // document.querySelector('.searchProductBtn').addEventListener('click', (ev) => {

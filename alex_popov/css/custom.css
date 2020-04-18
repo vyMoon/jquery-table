@@ -1,3 +1,51 @@
 .searchField {
     margin-right: 15px;
 }
+
+.screenFixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.darker {
+    background-color: rgba(0, 0, 0, 0.829);
+}
+
+.modalConfirmation {
+    width: 500px;
+    height: 200px;
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -250px;
+    /* padding-top: 50px; */
+    /* background-color: aquamarine; */
+
+}
+
+.modalAddition {
+    width: 400px;
+    /* height: 200px; */
+    position: fixed; 
+    top: 0;
+    left: 50%;
+    /* margin-top: -100px; */
+    margin-left: -250px;
+}
+
+.displayNone {
+    display: none !important
+}
+
+.form-cities {
+    height: 150px;
+
+}
+
+.productForm {
+    width: 500px;
+}

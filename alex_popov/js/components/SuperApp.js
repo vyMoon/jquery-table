@@ -36,8 +36,14 @@ class SuperApp {
         // document.getElementById(elementId).innerHTML = tmpl({ 
         //     list: items
         // });
-
-        $( elementId ).html( tmpl( {list: items} ) );
+        $( elementId ).html('')
+        // console.log( tmpl( {list: items} ) )
+        // $( elementId ).html( tmpl( {list: items} ) );
+        // const r = ()
+        setTimeout(function() {
+            console.log('render', items)
+            $( elementId ).html( tmpl( {list: items} ) );
+        }, 1000)
     }
 
     sorter(items, field, bool) {
