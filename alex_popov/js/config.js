@@ -49,4 +49,22 @@ const products = [
         price: 560.35,
         dilivery: false
     }
-]
+];
+
+const delivery = {
+    'Russia': [
+        'Moscow',
+        'Voronezh',
+        'Orel'
+    ],
+    'Belorus': [
+        'Minsk',
+        'Narva',
+        'Ghomel'
+    ],
+    'US': [
+        'washington',
+        'Sietl',
+        'Buclin'
+    ]
+}

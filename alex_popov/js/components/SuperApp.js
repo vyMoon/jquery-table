@@ -29,7 +29,7 @@ class SuperApp {
         return `${currency} ${pieces[0]}.${pieces[1]}`;
     }
 
-    renderTableBody(construction, items, elementId) {
+    render(construction, items, elementId) {
         let tmpl = _.template( construction );
         // раньше в кчестве селектора в elemtntId была строка без # был добавлен этот символ для рабты в джквери
         // нужно или пердать без него или исользовать другую функцию если все нужно будет вернуть
@@ -37,13 +37,11 @@ class SuperApp {
         //     list: items
         // });
         $( elementId ).html('')
-        // console.log( tmpl( {list: items} ) )
-        // $( elementId ).html( tmpl( {list: items} ) );
-        // const r = ()
-        setTimeout(function() {
-            console.log('render', items)
-            $( elementId ).html( tmpl( {list: items} ) );
-        }, 1000)
+
+        $( elementId ).html( tmpl( {list: items} ) );
+        // setTimeout(function() {
+        //     $( elementId ).html( tmpl( {list: items} ) );
+        // }, 1000)
     }
 
     sorter(items, field, bool) {
@@ -66,6 +64,7 @@ class SuperApp {
 
     visibiliter(bool, container, ...targets) {
         const cont = container === 0 ? document.querySelector('body') : container,
+        // const cont = container === 0 ? $('body') : container,
             fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
 
         targets.forEach( (el) => {

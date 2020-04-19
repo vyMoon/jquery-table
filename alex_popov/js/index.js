@@ -1,8 +1,14 @@
 const {key, fileId, currency, priceDelimiter} = config;
 // console.log(key, fileId, currency, priceDelimiter)
 
-const application = new App(key, fileId, currency, priceDelimiter);
-// console.log($('.table'))
+const application = new App(
+    key, 
+    fileId, 
+    currency, 
+    priceDelimiter,
+    delivery
+);
+// console.log( application )
 
 $( () => {
     application.renderTableBody('#productsTableBody');
@@ -36,13 +42,11 @@ $('#productsTableBody').on('click', 'button', onDel);
 function onDel(ev) {
     ev.preventDefault();
 
-    if($(this).data('action')) {
+    if( $(this).data('action') ) {
         const id = $(this).data('id')
         const action = $(this).data('action')
         // console.log(id, action)
         if (action === 'delete') {
-            // console.log('delete')
-            // application.deleteItem.call(application, id)
             application.deleteItem(id)
         }
     }
@@ -56,6 +60,7 @@ function onDel(ev) {
 $('#addNewProduct').click( (ev) => {
     ev.preventDefault();
     console.log('add new product');
+    application.addNewItem()
 });
 
 // document.querySelector('#addNewProduct').addEventListener('click', (ev) => {
