@@ -10,7 +10,7 @@ class ProductForm extends Application {
             'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
             'email': /^[\w]{1,}[@]{1}[a-z]{1,}[.]{1}[a-z]{2,}$/,
             'number': /^\d{1,}$/,
-            'price': /^\d{1,}.{0,1}\d{0,2}$/
+            'price': /^\d{1,}.?\d{0,2}$/
         }
         // this.regExpNumber = /^\d{1,}$/;
 
@@ -93,21 +93,60 @@ class ProductForm extends Application {
         
     }
 
-    onInputNumber() {
-        const count = $('#count').val().trim();
-        console.log(count)
+    InputZeroValue(id, newVal) {
+        this.productInformation[id] = newVal;
+        $(`#${id}`).val(newVal)
+        if (newVal === '') {
+            this.formHighliter(false, $(`#${id}`) )
+        }
+    }
+
+    onInputNumber(ev) {
+        let count = ev.target.value.trim();
+        const elementId = ev.target.id;
+        let reg, reg2;
+        
+        if (elementId === 'count') {
+            reg = this.validation.number;
+            reg2 = /\D/g;
+        } else if (elementId === 'price') {
+            reg = this.validation.price;
+            reg2 = /[^0-9.]/g;
+        }
+
         if (count !== '') {
-            if (this.validation.number.test(count)) {
-                const number = Number( (+count).toFixed() )
-                this.productInformation.count = number;
-                this.formHighliter(true, $('#count'))
+            if (reg.test(count)) {
+                // console.log('true')
+                const number = Number( (+count).toFixed(2) )
+                this.productInformation[elementId] = number;
+                this.formHighliter(true, $(`#${elementId}`))
                 
             } else {
-                $('#count').val(this.productInformation.count)
+                // console.log('false')
+                if (elementId === 'price') {
+                    console.log(1)
+                    count = count.replace(reg2, '')
+                    count = Number( (+count).toFixed(2) ) 
+                } else if (elementId === 'count') {
+                    console.log(2)
+                    count = count.replace(reg2, '')
+                }
+                console.log(count)
+                this.InputZeroValue(elementId, count)
             }
+            // if (this.validation.number.test(count)) {
+            //     const number = Number( (+count).toFixed(2) )
+            //     this.productInformation[elementId] = number;
+            //     // console.log( Number( (+count).toFixed(2) ) )
+            //     this.formHighliter(true, $(`#${elementId}`))
+                
+            // } else {
+            //     this.InputZeroValue(elementId)
+            // }
         } else {
-            this.formHighliter(false, $('#count'))
+            this.InputZeroValue(elementId, '')
         }
+        // console.log(this.productInformation.price)
     }
 
     onInputPrice() {
@@ -160,7 +199,7 @@ class ProductForm extends Application {
         $('#name').on('input', this.onInputName)
         $('#email').on('input', this.onInputEmail)
         $('#count').on('input', this.onInputNumber)
-        $('#price').on('input', this.onInputPrice)
+        $('#price').on('input', this.onInputNumber)
         $('#price').on('change', this.onChangePrice)
     }
 
@@ -173,7 +212,7 @@ class ProductForm extends Application {
         $('#name').off('input', this.onInputName)
         $('#email').off('input', this.onInputEmail)
         $('#count').off('input', this.onInputNumber)
-        $('#price').off('input', this.onInputPrice)
+        $('#price').off('input', this.onInputNumber)
         $('#price').off('change', this.onChangePrice)
 
         $('#selectAll').prop('checked', false);
