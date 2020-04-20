@@ -1,4 +1,4 @@
-class App extends SuperApp {
+class Table extends Application {
     constructor(key, fileId, currency, priceDelimiter, delivery) {
         super();
         this.fileId = fileId;
@@ -21,7 +21,7 @@ class App extends SuperApp {
                 <tr> \
                     <td><a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a></td> \
                     <td><%=el.count%></td> \
-                    <td><%=application.priceMaker( el.price )%></td> \
+                    <td><%=table.priceMaker( el.price )%></td> \
                     <td class="d-flex justify-content-around"> \
                         <button type="button" class="btn btn-info" data-id="<%=el.id%>" data-action="edit">Edit</button> \
                         <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> \
@@ -33,8 +33,6 @@ class App extends SuperApp {
             <% list.forEach( (el, index) => { %> \
                 <option value="<%=el%>"><%=el%></option> \
             <% }) %>',
-
-
 
             cities: '<% for( let country in list ) { %> \
                 <div class="displayNone countryCities" data-country="<%=country%>"> \
@@ -103,6 +101,24 @@ class App extends SuperApp {
         return super.priceMaker(num, this.currency, this.priceDelimiter)
     }
 
+    sorter(items, field, bool) {
+        const sortingRule = ( a, b) => {
+            if ( a[field] > b[field] ) {
+                return 1
+            }
+            if ( a[field] < b[field] ) {
+                return -1
+            }
+            return 0
+        }
+
+        this.sort(sortingRule)
+        
+        if ( !bool ) {
+            this.reverse()
+        }
+    }
+
     sortingMarkersRender(rule, direction) {
         if (rule !== '') {
             // console.log(rule, direction)
@@ -128,51 +144,54 @@ class App extends SuperApp {
     }
 
     addNewItem() {
-        $('#an-container').removeClass('displayNone');
-        $('.darker').removeClass('displayNone')
+        const form = new ProductForm();
+        console.log (form)
+        form.on()
+        // $('#an-container').removeClass('displayNone');
+        // $('.darker').removeClass('displayNone')
 
-        const countries = Object.keys(this.delivery);
-        for (let key in this.delivery) {
-            // console.log(key)
-        }
+        // const countries = Object.keys(this.delivery);
 
-        this.render( this.structures.cities, this.delivery, '#deliveryCities' )
-        this.render(this.structures.select, countries, '#countriesSelector');
+        form.render(this.delivery)
+
+        // this.render( this.structures.cities, this.delivery, '#deliveryCities' )
+        // this.render(this.structures.select, countries, '#countriesSelector');
 
         // console.log( $('#countriesSelector').value )
 
-        const onCancelform = () => {
-            console.log('form cancel')
-            $('#formCancel').off('click', onCancelform)
-            $('#formSubmit').off('click', onSubmitForm)
-            $('#selectAll').off('click', onClickAll)
-            $('#selectAll').prop('checked', false);
-            $('#an-container').addClass('displayNone');
-            $('.darker').addClass('displayNone')
-        }
-        const onSubmitForm = () => {
-            console.log('form submit')
-        }
+    //     const onCancelform = () => {
+    //         console.log('form cancel')
+    //         $('#formCancel').off('click', onCancelform)
+    //         $('#formSubmit').off('click', onSubmitForm)
+    //         $('#selectAll').off('click', onClickAll)
+    //         $('#selectAll').prop('checked', false);
+    //         $('#an-container').addClass('displayNone');
+    //         $('.darker').addClass('displayNone')
+    //     }
+    //     const onSubmitForm = () => {
+    //         console.log('form submit')
+    //     }
 
-        function onClickAll() {
-            console.log(this)
-        }
+    //     function onClickAll() {
+    //         console.log(this.prop('checked'))
+    //         console.log( $('#deliveryCities').find('input') )
+    //     }
 
-        $('#formCancel').on('click', onCancelform)
+    //     $('#formCancel').on('click', onCancelform)
 
-        $('#formSubmit').on('click', onSubmitForm)
+    //     $('#formSubmit').on('click', onSubmitForm)
 
-        $('#selectAll').on('click', onClickAll)
-        $('#countriesSelector').on('change', function() {
-            console.log( $('.countryCities') )
-            // console.log(this.value === 'choose')
-            if (this.value !== 'choose') {
-                $('.countryCities').addClass('displayNone')
-                $(`[data-country="${this.value}"]`).removeClass('displayNone')
-            }
+    //     $('#selectAll').on('click', onClickAll)
+    //     $('#countriesSelector').on('change', function() {
+    //         console.log( $('.countryCities') )
+    //         // console.log(this.value === 'choose')
+    //         if (this.value !== 'choose') {
+    //             $('.countryCities').addClass('displayNone')
+    //             $(`[data-country="${this.value}"]`).removeClass('displayNone')
+    //         }
             
 
-        })
+    //     })
 
     }
 

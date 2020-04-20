@@ -66,5 +66,30 @@ const delivery = {
         'washington',
         'Sietl',
         'Buclin'
+    ],
+    'Japan': [
+        'Tokyo',
+        'Osaka',
+        'Himeji'
+    ],
+    'China': [
+        'Honkong',
+        'Pekin',
+        'Guachzou'
+    ],
+    'Sweden': [
+        'Stocholm',
+        'Lindchopong',
+        'Geteborg'
+    ],
+    'Norway': [
+        'Oslo',
+        'Bergen',
+        'Otta'
+    ],
+    'Finland': [
+        'Helsinki',
+        'Kouvola',
+        'Oulu'
     ]
 }

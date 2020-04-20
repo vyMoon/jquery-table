@@ -1,7 +1,7 @@
 const {key, fileId, currency, priceDelimiter} = config;
 // console.log(key, fileId, currency, priceDelimiter)
 
-const application = new App(
+const table = new Table(
     key, 
     fileId, 
     currency, 
@@ -11,7 +11,7 @@ const application = new App(
 // console.log( application )
 
 $( () => {
-    application.renderTableBody('#productsTableBody');
+    table.renderTableBody('#productsTableBody');
 });
 // application.renderTableBody('productsTableBody')
 
@@ -24,7 +24,7 @@ $('#productsTableHead').click( (ev) => {
     ev.preventDefault()
     // console.log('table head');
     if (ev.target.dataset.sorting) {
-        application.onClickSorting(ev.target.dataset.sorting, '#productsTableBody', ev.target.parentElement)
+        table.onClickSorting(ev.target.dataset.sorting, '#productsTableBody', ev.target.parentElement)
     }
 });
 
@@ -47,7 +47,7 @@ function onDel(ev) {
         const action = $(this).data('action')
         // console.log(id, action)
         if (action === 'delete') {
-            application.deleteItem(id)
+            table.deleteItem(id)
         }
     }
 }
@@ -60,7 +60,7 @@ function onDel(ev) {
 $('#addNewProduct').click( (ev) => {
     ev.preventDefault();
     console.log('add new product');
-    application.addNewItem()
+    table.addNewItem()
 });
 
 // document.querySelector('#addNewProduct').addEventListener('click', (ev) => {

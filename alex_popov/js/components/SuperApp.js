@@ -1,6 +1,6 @@
 'use strict';
 
-class SuperApp {
+class Application {
 
     onClickSorting(newRule, target) {
         const{rule} = this.state.sorting
@@ -44,23 +44,23 @@ class SuperApp {
         // }, 1000)
     }
 
-    sorter(items, field, bool) {
-        const sortingRule = ( a, b) => {
-            if ( a[field] > b[field] ) {
-                return 1
-            }
-            if ( a[field] < b[field] ) {
-                return -1
-            }
-            return 0
-        }
+    // sorter(items, field, bool) {
+    //     const sortingRule = ( a, b) => {
+    //         if ( a[field] > b[field] ) {
+    //             return 1
+    //         }
+    //         if ( a[field] < b[field] ) {
+    //             return -1
+    //         }
+    //         return 0
+    //     }
 
-        this.sort(sortingRule)
+    //     this.sort(sortingRule)
         
-        if ( !bool ) {
-            this.reverse()
-        }
-    }
+    //     if ( !bool ) {
+    //         this.reverse()
+    //     }
+    // }
 
     visibiliter(bool, container, ...targets) {
         const cont = container === 0 ? document.querySelector('body') : container,
