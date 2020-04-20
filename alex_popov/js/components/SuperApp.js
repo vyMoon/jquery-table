@@ -16,7 +16,7 @@ class Application {
     }
 
     priceMaker(num, currency, delimiter) {
-        const pieces = num.toFixed(2).split('.')
+        const pieces = Number(num).toFixed(2).split('.')
     
         if (pieces[0].length > 3) {
             pieces[0] = pieces[0].split('')

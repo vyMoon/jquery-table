@@ -1,25 +1,24 @@
 console.log('pf');
 
 class ProductForm extends Application {
-    constructor(productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'dilivery': {}}) {
+    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'dilivery': {}}) {
         super();
-
+        this.currency = currency;
+        this.priceDelimiter = priceDelimiter;
         this.productInformation = productInformation;
 
         this.validation = {
             'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
             'email': /^[\w]{1,}[@]{1}[a-z]{1,}[.]{1}[a-z]{2,}$/,
             'number': /^\d{1,}$/,
-            'price': /^\d{1,}.?\d{0,2}$/
+            'price': /^[0-9]*[.]?[0-9]{0,2}$/
         }
-        // this.regExpNumber = /^\d{1,}$/;
-
 
         this.onInputName = this.onInputName.bind(this)
         this.onInputEmail = this.onInputEmail.bind(this)
         this.onInputNumber = this.onInputNumber.bind(this)
         this.onChangePrice = this.onChangePrice.bind(this)
-        this.onInputPrice = this.onInputPrice.bind(this)
+        this.onClickPrice = this.onClickPrice.bind(this)
 
         this.structures = {
             select: '<option value="choose">choose</option> \
@@ -31,8 +30,8 @@ class ProductForm extends Application {
                 <div class="displayNone countryCities" data-country="<%=country%>"> \
                     <% list[country].forEach( (el) => { %> \
                         <div> \
-                            <input type="checkbox" class="custom-control-input" id="<%=el%>"> \
-                            <label class="custom-control-label" for="<%=el%>"><%=el%></label> \
+                            <input type="checkbox" class="custom-control-input" id="<%=country%>-<%=el%>"> \
+                            <label class="custom-control-label" for="<%=country%>-<%=el%>"><%=el%></label> \
                         </div> \
                     <% }) %> \
                 </div> \
@@ -116,7 +115,7 @@ class ProductForm extends Application {
 
         if (count !== '') {
             if (reg.test(count)) {
-                // console.log('true')
+                console.log(count)
                 const number = Number( (+count).toFixed(2) )
                 this.productInformation[elementId] = number;
                 this.formHighliter(true, $(`#${elementId}`))
@@ -131,7 +130,7 @@ class ProductForm extends Application {
                     console.log(2)
                     count = count.replace(reg2, '')
                 }
-                console.log(count)
+                // console.log(count)
                 this.InputZeroValue(elementId, count)
             }
             // if (this.validation.number.test(count)) {
@@ -149,12 +148,31 @@ class ProductForm extends Application {
         // console.log(this.productInformation.price)
     }
 
-    onInputPrice() {
+    // onInputPrice() {
+    //     console.log(ev.target.value)
+    //     const val = ev.target.value.trim()
 
+    //     console.log(val)
+
+    // }
+
+    onChangePrice(ev) {
+        // console.log(' changeprice')
+        const val = ev.target.value.trim()
+        if (val !== '') {
+            console.log(this.priceMaker(val, this.currency, this.priceDelimiter) )
+            ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter)
+        }
     }
 
-    onChangePrice() {
-        console.log(' changeprice')
+    onClickPrice(ev) {
+        console.log('click price')
+        console.log(ev.target.value)
+        console.log(this.productInformation.price)
+        if (this.productInformation && ev.target.value) {
+            console.log('change')
+            ev.target.value = this.productInformation.price;
+        }
     }
 
     onSelectCountry() {
@@ -187,6 +205,7 @@ class ProductForm extends Application {
             $('.countryCities').addClass('displayNone')
         }
     }
+
     on() {
         $('#an-container').removeClass('displayNone');
         $('.darker').removeClass('displayNone')
@@ -200,7 +219,8 @@ class ProductForm extends Application {
         $('#email').on('input', this.onInputEmail)
         $('#count').on('input', this.onInputNumber)
         $('#price').on('input', this.onInputNumber)
-        $('#price').on('change', this.onChangePrice)
+        $('#price').on('focusout', this.onChangePrice)
+        $('#price').on('click', this.onClickPrice)
     }
 
     off(ev) {
@@ -213,7 +233,8 @@ class ProductForm extends Application {
         $('#email').off('input', this.onInputEmail)
         $('#count').off('input', this.onInputNumber)
         $('#price').off('input', this.onInputNumber)
-        $('#price').off('change', this.onChangePrice)
+        $('#price').off('focusout', this.onChangePrice)
+        $('#price').off('click', this.onClickPrice)
 
         $('#selectAll').prop('checked', false);
 
@@ -227,7 +248,8 @@ class ProductForm extends Application {
         const countries = Object.keys(deliveryIformation);
         super.render(this.structures.cities, deliveryIformation, '#deliveryCities' )
         super.render(this.structures.select, countries, '#countriesSelector');
-    }
 
+        this.on()
+    }
 
 }

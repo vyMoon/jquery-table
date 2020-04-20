@@ -128,9 +128,9 @@ class Table extends Application {
     }
 
     addNewItem() {
-        const form = new ProductForm();
+        const form = new ProductForm(this.currency, this.priceDelimiter);
         // console.log (form)
-        form.on()
+        // form.on()
         form.render(this.delivery)
 
     }
