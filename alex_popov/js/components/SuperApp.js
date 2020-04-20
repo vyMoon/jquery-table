@@ -31,11 +31,7 @@ class Application {
 
     render(construction, items, elementId) {
         let tmpl = _.template( construction );
-        // раньше в кчестве селектора в elemtntId была строка без # был добавлен этот символ для рабты в джквери
-        // нужно или пердать без него или исользовать другую функцию если все нужно будет вернуть
-        // document.getElementById(elementId).innerHTML = tmpl({ 
-        //     list: items
-        // });
+
         $( elementId ).html('')
 
         $( elementId ).html( tmpl( {list: items} ) );

@@ -27,23 +27,7 @@ class Table extends Application {
                         <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> \
                     </td> \
                 </tr> \
-            <% }) %>',
-    
-            select: '<option value="choose">choose</option> \
-            <% list.forEach( (el, index) => { %> \
-                <option value="<%=el%>"><%=el%></option> \
-            <% }) %>',
-
-            cities: '<% for( let country in list ) { %> \
-                <div class="displayNone countryCities" data-country="<%=country%>"> \
-                    <% list[country].forEach( (el) => { %> \
-                        <div> \
-                            <input type="checkbox" class="custom-control-input" id="<%=el%>"> \
-                            <label class="custom-control-label" for="<%=el%>"><%=el%></label> \
-                        </div> \
-                    <% }) %> \
-                </div> \
-            <% } %>'
+            <% }) %>'
         }
 
     }
@@ -145,53 +129,9 @@ class Table extends Application {
 
     addNewItem() {
         const form = new ProductForm();
-        console.log (form)
+        // console.log (form)
         form.on()
-        // $('#an-container').removeClass('displayNone');
-        // $('.darker').removeClass('displayNone')
-
-        // const countries = Object.keys(this.delivery);
-
         form.render(this.delivery)
-
-        // this.render( this.structures.cities, this.delivery, '#deliveryCities' )
-        // this.render(this.structures.select, countries, '#countriesSelector');
-
-        // console.log( $('#countriesSelector').value )
-
-    //     const onCancelform = () => {
-    //         console.log('form cancel')
-    //         $('#formCancel').off('click', onCancelform)
-    //         $('#formSubmit').off('click', onSubmitForm)
-    //         $('#selectAll').off('click', onClickAll)
-    //         $('#selectAll').prop('checked', false);
-    //         $('#an-container').addClass('displayNone');
-    //         $('.darker').addClass('displayNone')
-    //     }
-    //     const onSubmitForm = () => {
-    //         console.log('form submit')
-    //     }
-
-    //     function onClickAll() {
-    //         console.log(this.prop('checked'))
-    //         console.log( $('#deliveryCities').find('input') )
-    //     }
-
-    //     $('#formCancel').on('click', onCancelform)
-
-    //     $('#formSubmit').on('click', onSubmitForm)
-
-    //     $('#selectAll').on('click', onClickAll)
-    //     $('#countriesSelector').on('change', function() {
-    //         console.log( $('.countryCities') )
-    //         // console.log(this.value === 'choose')
-    //         if (this.value !== 'choose') {
-    //             $('.countryCities').addClass('displayNone')
-    //             $(`[data-country="${this.value}"]`).removeClass('displayNone')
-    //         }
-            
-
-    //     })
 
     }
 
