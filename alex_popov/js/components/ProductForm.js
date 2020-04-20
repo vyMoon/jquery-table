@@ -1,7 +1,7 @@
 console.log('pf');
 
 class ProductForm extends Application {
-    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'dilivery': {}}) {
+    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}) {
         super();
         this.currency = currency;
         this.priceDelimiter = priceDelimiter;
@@ -14,28 +14,31 @@ class ProductForm extends Application {
             'price': /^[0-9]*[.]?[0-9]{0,2}$/
         }
 
-        this.onInputName = this.onInputName.bind(this)
-        this.onInputEmail = this.onInputEmail.bind(this)
-        this.onInputNumber = this.onInputNumber.bind(this)
-        this.onChangePrice = this.onChangePrice.bind(this)
-        this.onClickPrice = this.onClickPrice.bind(this)
+        this.onInputName = this.onInputName.bind(this);
+        this.onInputEmail = this.onInputEmail.bind(this);
+        this.onInputNumber = this.onInputNumber.bind(this);
+        this.onChangePrice = this.onChangePrice.bind(this);
+        this.onClickPrice = this.onClickPrice.bind(this);
+        // this.onSubmit = this.onSubmit.bind(this);
+
+        this.cityAdder = this.cityAdder.bind(this);
 
         this.structures = {
-            select: '<option value="choose">choose</option> \
-            <% list.forEach( (el, index) => { %> \
-                <option value="<%=el%>"><%=el%></option> \
-            <% }) %>',
+            select: `<option value="choose">choose</option>
+            <% list.forEach( (el, index) => { %>
+                <option value="<%=el%>"><%=el%></option>
+            <% }) %>`,
 
-            cities: '<% for( let country in list ) { %> \
-                <div class="displayNone countryCities" data-country="<%=country%>"> \
-                    <% list[country].forEach( (el) => { %> \
-                        <div> \
-                            <input type="checkbox" class="custom-control-input" id="<%=country%>-<%=el%>"> \
-                            <label class="custom-control-label" for="<%=country%>-<%=el%>"><%=el%></label> \
-                        </div> \
-                    <% }) %> \
-                </div> \
-            <% } %>'
+            cities: `<% for( let country in list ) { %> 
+                <div class="displayNone countryCities" data-country="<%=country%>"> 
+                    <% list[country].forEach( (el) => { %> 
+                        <div>
+                            <input type="checkbox" class="custom-control-input" id="<%=country%>-<%=el%>"> 
+                            <label class="custom-control-label" for="<%=country%>-<%=el%>"><%=el%></label> 
+                        </div> 
+                    <% }) %> 
+                </div> 
+            <% } %>`
         }
     }
 
@@ -50,10 +53,45 @@ class ProductForm extends Application {
         }
     }
 
-    onSubmitForm = (ev) => {
+    cityAdder(ev) {
         ev.preventDefault()
-        console.log('form submit')
+        console.log(this)
+        // console.log(el)
+         // console.log(el.id)
+         const delivery = {}
+         $('#deliveryCities').find('input:checked').each( (i, el) => {
+            const data = el.id.split('-')
+            // console.log(!( data[0] in dd) )
+            if (! (data[0] in delivery) ) {
+                console.log('create')
+                delivery[data[0]] = []
+            }
+            delivery[data[0]].push(data[1])
+         })
+        //  const data = el.id.split('-')
+        //  console.log(!( data[0] in dd) )
+        // if (! (data[0] in dd) ) {
+        //     console.log('create')
+        //     dd[data[0]] = []
+        // }
+        // dd[data[0]].push(data[1])
+        // console.log(dd) 
+        this.productInformation.delivery = delivery;
+        console.log(this.productInformation)
+
+
+        //  // this.productInformation.dilivery[data[0]] = data[1]
     }
+
+    // onSubmit = (ev) => {
+    //     ev.preventDefault()
+    //     // console.log('asdf' in this.productInformation.delivery)
+    //     // console.log( $('#deliveryCities').find('input:checked') )
+    //     // const delivery = {}
+    //     const dd
+    //     $('#deliveryCities').find('input:checked').each( this.cityAdder)
+    //     // console.log(this.productInformation.dilivery)
+    // }
 
     onClickAll() {
         // console.log(this)
@@ -188,7 +226,7 @@ class ProductForm extends Application {
             inputs.each( (i, el) => {
                 // console.log( $(el).prop('checked') )
                 if ( $(el).prop('checked') === false) {
-                    console.log('false')
+                    // console.log('false')
                     $('#selectAll').prop('checked', false)
                 } else {
                     selected++
@@ -206,12 +244,16 @@ class ProductForm extends Application {
         }
     }
 
+    // onClickCities() {
+    //     console.log('cities')
+    // }
+
     on() {
         $('#an-container').removeClass('displayNone');
         $('.darker').removeClass('displayNone')
 
         $('#formCancel').on('click', this.off);
-        $('#formSubmit').on('click', this.onSubmitForm);
+        $('#formSubmit').on('click', this.cityAdder);
         $('#selectAll').on('click', this.onClickAll);
         $('#countriesSelector').on('change', this.onSelectCountry);
 
@@ -221,6 +263,8 @@ class ProductForm extends Application {
         $('#price').on('input', this.onInputNumber)
         $('#price').on('focusout', this.onChangePrice)
         $('#price').on('click', this.onClickPrice)
+
+        // $('#deliveryCities').on('click', this.onClickCities)
     }
 
     off(ev) {
@@ -229,12 +273,15 @@ class ProductForm extends Application {
         $('#formCancel').off('click', this.onCancelform)
         $('#formSubmit').off('click', this.onSubmitForm)
         $('#selectAll').off('click', this.onClickAll)
+        $('#countriesSelector').off('change', this.onSelectCountry);
+
         $('#name').off('input', this.onInputName)
         $('#email').off('input', this.onInputEmail)
         $('#count').off('input', this.onInputNumber)
         $('#price').off('input', this.onInputNumber)
         $('#price').off('focusout', this.onChangePrice)
         $('#price').off('click', this.onClickPrice)
+        // $('#deliveryCities').off('click', this.onClickCities)
 
         $('#selectAll').prop('checked', false);
 
