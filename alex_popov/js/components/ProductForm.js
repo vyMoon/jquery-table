@@ -9,7 +9,7 @@ class ProductForm extends Application {
 
         this.validation = {
             'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
-            'email': /^[\w]{1,}[@]{1}[a-z]{1,}[.]{1}[a-z]{2,}$/,
+            'email': /^[\w-_]{1,}[@]{1}[a-z-_]{1,}[.]{1}[a-z]{2,}$/,
             'number': /^\d{1,}$/,
             'price': /^[0-9]*[.]?[0-9]{0,2}$/
         }
@@ -131,11 +131,13 @@ class ProductForm extends Application {
     }
 
     InputZeroValue(id, newVal) {
-        this.productInformation[id] = newVal;
+        // this.productInformation[id] = newVal;
         $(`#${id}`).val(newVal)
         if (newVal === '') {
+            newVal = 0;
             this.formHighliter(false, $(`#${id}`) )
         }
+        this.productInformation[id] = newVal;
     }
 
     onInputNumber(ev) {
@@ -166,10 +168,15 @@ class ProductForm extends Application {
                     count = Number( (+count).toFixed(2) ) 
                 } else if (elementId === 'count') {
                     console.log(2)
-                    count = count.replace(reg2, '')
+                    count = Number( count.replace(reg2, '') )
                 }
                 // console.log(count)
                 this.InputZeroValue(elementId, count)
+                console.log(count)
+                if (count === 0) {
+                    this.formHighliter(false, $(`#${elementId}`))
+                }
+                // this.formHighliter(false, $(`#${elementId}`))
             }
             // if (this.validation.number.test(count)) {
             //     const number = Number( (+count).toFixed(2) )
@@ -182,6 +189,7 @@ class ProductForm extends Application {
             // }
         } else {
             this.InputZeroValue(elementId, '')
+            this.formHighliter(false, $(`#${elementId}`))
         }
         // console.log(this.productInformation.price)
     }
@@ -198,7 +206,8 @@ class ProductForm extends Application {
         // console.log(' changeprice')
         const val = ev.target.value.trim()
         if (val !== '') {
-            console.log(this.priceMaker(val, this.currency, this.priceDelimiter) )
+            // console.log(this.priceMaker(val, this.currency, this.priceDelimiter) )
+            // console.log(val)
             ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter)
         }
     }
