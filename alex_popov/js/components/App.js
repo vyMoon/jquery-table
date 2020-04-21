@@ -16,6 +16,8 @@ class Table extends Application {
             }
         }
 
+        this.newItemAdder = this.newItemAdder.bind(this);
+
         this.structures = {
             tableBody: `<% list.forEach( (el, index) => { %> 
                 <tr> 
@@ -30,6 +32,15 @@ class Table extends Application {
             <% }) %>`
         }
 
+    }
+
+    newItemAdder(newProduct) {
+        // console.log(this)
+        newProduct.id = this.state.items.length + 1;
+        this.state.items.push(newProduct);
+
+        console.log(newProduct)
+        this.renderTableBody('#productsTableBody')
     }
 
     deleteItem(id) {
@@ -128,10 +139,13 @@ class Table extends Application {
     }
 
     addNewItem() {
-        const form = new ProductForm(this.currency, this.priceDelimiter);
-        // console.log (form)
+        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder);
+        // console.log (this.addNewItem())
         // form.on()
+
         form.render(this.delivery)
+        // this.newItemAdder()
+        // form.action()
 
     }
 

@@ -1,10 +1,11 @@
-console.log('pf');
 
 class ProductForm extends Application {
-    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}) {
+    constructor(currency, priceDelimiter, action, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}) {
         super();
+        // this.on()
         this.currency = currency;
         this.priceDelimiter = priceDelimiter;
+        this.action = action;
         this.productInformation = productInformation;
 
         this.validation = {
@@ -19,7 +20,8 @@ class ProductForm extends Application {
         this.onInputNumber = this.onInputNumber.bind(this);
         this.onChangePrice = this.onChangePrice.bind(this);
         this.onClickPrice = this.onClickPrice.bind(this);
-        // this.onSubmit = this.onSubmit.bind(this);
+        
+        // this.off = this.off.bind(this);
 
         this.cityAdder = this.cityAdder.bind(this);
 
@@ -53,31 +55,53 @@ class ProductForm extends Application {
         }
     }
 
-    cityAdder(ev) {
-        ev.preventDefault()
-        console.log(this)
-        // console.log(el)
-         // console.log(el.id)
-         const delivery = {}
-         $('#deliveryCities').find('input:checked').each( (i, el) => {
+    invalidFieldDetected(id) {
+        $( id ).focus();
+        $( id ).addClass('is-invalid')
+    }
+
+    deliveryCreator() {
+        const delivery = {}
+        $('#deliveryCities').find('input:checked').each( (i, el) => {
             const data = el.id.split('-')
             // console.log(!( data[0] in dd) )
             if (! (data[0] in delivery) ) {
-                console.log('create')
+                // console.log('create')
                 delivery[data[0]] = []
             }
             delivery[data[0]].push(data[1])
-         })
-        //  const data = el.id.split('-')
-        //  console.log(!( data[0] in dd) )
-        // if (! (data[0] in dd) ) {
-        //     console.log('create')
-        //     dd[data[0]] = []
-        // }
-        // dd[data[0]].push(data[1])
-        // console.log(dd) 
-        this.productInformation.delivery = delivery;
-        console.log(this.productInformation)
+        })
+
+        return delivery;
+    }
+
+    cityAdder(ev) {
+        ev.preventDefault()
+
+        if (this.productInformation.name === '' || this.productInformation.name.length < 5 || this.productInformation.name.length > 15) {
+            this.invalidFieldDetected('#name')
+        } else if ( !this.validation.email.test( this.productInformation.email ) ) {
+            // console.log(this.validation.email.test( this.productInformation.email) )
+            // console.log('eamail failed')
+            this.invalidFieldDetected('#email')
+            // $('#email').focus()
+            // $('#email').addClass('is-invalid')
+        } else if (this.productInformation.count === 0) {
+            // console.log('count failed')
+            this.invalidFieldDetected('#count')
+            // $('#count').focus()
+            // $('#count').addClass('is-invalid')
+        } else if (this.productInformation.price === 0) {
+            // console.log('price failed')
+            this.invalidFieldDetected('#price')
+        } else {
+            console.log('everuthing is ok')
+            this.productInformation.delivery = this.deliveryCreator();
+            console.log(this.productInformation)
+            this.action(this.productInformation)
+            this.off(ev)
+            // console.log(this)
+        }
 
 
         //  // this.productInformation.dilivery[data[0]] = data[1]
@@ -119,14 +143,11 @@ class ProductForm extends Application {
         
         const el = $('#email')
         const isEmailValid = this.validation.email.test( el.val().toLowerCase() );
-        
-        if ( isEmailValid ) {
-            this.productInformation.email = $('#email').val()
-            this.formHighliter(isEmailValid, $('#email'))
-            console.log(this.productInformation.email)
-        } else {
-            this.formHighliter(isEmailValid, $('#email'))
-        }
+        // console.log(isEmailValid)
+
+        this.formHighliter(isEmailValid, $('#email'))
+
+        this.productInformation.email = $('#email').val()
         
     }
 
@@ -155,7 +176,7 @@ class ProductForm extends Application {
 
         if (count !== '') {
             if (reg.test(count)) {
-                console.log(count)
+                // console.log(count)
                 const number = Number( (+count).toFixed(2) )
                 this.productInformation[elementId] = number;
                 this.formHighliter(true, $(`#${elementId}`))
@@ -163,59 +184,39 @@ class ProductForm extends Application {
             } else {
                 // console.log('false')
                 if (elementId === 'price') {
-                    console.log(1)
+                    // console.log(1)
                     count = count.replace(reg2, '')
                     count = Number( (+count).toFixed(2) ) 
                 } else if (elementId === 'count') {
-                    console.log(2)
+                    // console.log(2)
                     count = Number( count.replace(reg2, '') )
                 }
                 // console.log(count)
                 this.InputZeroValue(elementId, count)
-                console.log(count)
+                // console.log(count)
                 if (count === 0) {
                     this.formHighliter(false, $(`#${elementId}`))
                 }
-                // this.formHighliter(false, $(`#${elementId}`))
             }
-            // if (this.validation.number.test(count)) {
-            //     const number = Number( (+count).toFixed(2) )
-            //     this.productInformation[elementId] = number;
-            //     // console.log( Number( (+count).toFixed(2) ) )
-            //     this.formHighliter(true, $(`#${elementId}`))
-                
-            // } else {
-            //     this.InputZeroValue(elementId)
-            // }
+
         } else {
             this.InputZeroValue(elementId, '')
             this.formHighliter(false, $(`#${elementId}`))
         }
-        // console.log(this.productInformation.price)
     }
 
-    // onInputPrice() {
-    //     console.log(ev.target.value)
-    //     const val = ev.target.value.trim()
-
-    //     console.log(val)
-
-    // }
-
     onChangePrice(ev) {
-        // console.log(' changeprice')
+        
         const val = ev.target.value.trim()
         if (val !== '') {
-            // console.log(this.priceMaker(val, this.currency, this.priceDelimiter) )
-            // console.log(val)
             ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter)
         }
     }
 
     onClickPrice(ev) {
-        console.log('click price')
-        console.log(ev.target.value)
-        console.log(this.productInformation.price)
+        // console.log('click price')
+        // console.log(ev.target.value)
+        // console.log(this.productInformation.price)
         if (this.productInformation && ev.target.value) {
             console.log('change')
             ev.target.value = this.productInformation.price;
@@ -223,8 +224,6 @@ class ProductForm extends Application {
     }
 
     onSelectCountry() {
-        // console.log( $('.countryCities') )
-        // console.log(this.value)
         if (this.value !== 'choose') {
             $('#selectAll').attr('disabled', false)
             $('.countryCities').addClass('displayNone')
@@ -253,10 +252,6 @@ class ProductForm extends Application {
         }
     }
 
-    // onClickCities() {
-    //     console.log('cities')
-    // }
-
     on() {
         $('#an-container').removeClass('displayNone');
         $('.darker').removeClass('displayNone')
@@ -278,7 +273,7 @@ class ProductForm extends Application {
 
     off(ev) {
         ev.preventDefault()
-        
+        // this.offActions()
         $('#formCancel').off('click', this.onCancelform)
         $('#formSubmit').off('click', this.onSubmitForm)
         $('#selectAll').off('click', this.onClickAll)
@@ -298,13 +293,15 @@ class ProductForm extends Application {
         $('.darker').addClass('displayNone')
 
         $('#addNewForm').find('input').val('')
+        $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid')
+        $('#addNewForm').find('input').removeClass('is-invalid')
     }
 
     render(deliveryIformation) {
         const countries = Object.keys(deliveryIformation);
         super.render(this.structures.cities, deliveryIformation, '#deliveryCities' )
         super.render(this.structures.select, countries, '#countriesSelector');
-
+    
         this.on()
     }
 
