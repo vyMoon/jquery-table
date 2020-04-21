@@ -36,18 +36,22 @@ $('#productsTableHead').click( (ev) => {
 //     }
 // })
 
-$('#productsTableBody').on('click', 'a', onDel);
-$('#productsTableBody').on('click', 'button', onDel);
+$('#productsTableBody').on('click', 'a', tableClick);
+$('#productsTableBody').on('click', 'button', tableClick);
 
-function onDel(ev) {
+function tableClick(ev) {
     ev.preventDefault();
-
+    // console.log( $(this).data('action'))
     if( $(this).data('action') ) {
         const id = $(this).data('id')
         const action = $(this).data('action')
         // console.log(id, action)
         if (action === 'delete') {
             table.deleteItem(id)
+        }
+        if(action === 'edit') {
+            console.log(id)
+            table.editItem(id)
         }
     }
 }

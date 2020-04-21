@@ -59,12 +59,19 @@ class Application {
     // }
 
     visibiliter(bool, container, ...targets) {
+        // it shows and hides arrows that show the current direction of sorting
+        // choses container, passed argument can be a selector or 0 
+        // if container 0 it looks for the arrow in the whole body
+        // if bool argumets is true it shows if false it hides
+        // targets - the list of passed selectors  
         const cont = container === 0 ? document.querySelector('body') : container,
-        // const cont = container === 0 ? $('body') : container,
             fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
 
         targets.forEach( (el) => {
             cont.querySelectorAll(el).forEach( (elem) => {
+                // here the third argumend used only if the function is setAttribute 
+                // it sets attr hidden as true
+                // if the function is removeAttr it doesn't use this parametr
                 fn.call(elem, 'hidden', 'true')
             })
         })

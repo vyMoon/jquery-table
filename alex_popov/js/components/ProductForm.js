@@ -74,12 +74,15 @@ class ProductForm extends Application {
         }
     }
 
-    InputZeroValue(id, newVal) {
+    inputIncorectNumber(id, newVal) {
         // I supposed if the price or count values get incoret value
         // it stores 0 if every simbols are not a digit
         // and if price got before 100 and then got 'f/ for example
         // it should store 100 and miss 'f' after 100
-        $(`#${id}`).val(newVal);
+        if( newVal !== '') {
+            $(`#${id}`).val(newVal);
+        }
+        
         if (newVal === '') {
             newVal = 0;
             this.formHighliter(false, $(`#${id}`) )
@@ -94,12 +97,74 @@ class ProductForm extends Application {
         $( id ).addClass('is-invalid');
     }    
 
+    off(ev) {
+        //removes events and hide the form and darker
+        ev.preventDefault()
+
+        $('#formCancel').off('click', this.onCancelform);
+        $('#formSubmit').off('click', this.onSubmitForm);
+        $('#selectAll').off('click', this.onClickAll);
+        $('#countriesSelector').off('change', this.onSelectCountry);
+
+        $('#name').off('input', this.onInputName);
+        $('#email').off('input', this.onInputEmail);
+        $('#count').off('input', this.onInputNumber);
+        $('#price').off('input', this.onInputNumber);
+        $('#price').off('focusout', this.onChangePrice);
+        $('#price').off('click', this.onClickPrice);
+
+        $('#selectAll').prop('checked', false);
+
+        $('#an-container').addClass('displayNone');
+        $('.darker').addClass('displayNone')
+
+        $('#addNewForm').find('input').val('');
+        $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid');
+        $('#addNewForm').find('input').removeClass('is-invalid');
+    }
+
+    on() {
+        // adds events and displays form and darker
+        $('#an-container').removeClass('displayNone');
+        $('.darker').removeClass('displayNone');
+
+        $('#formCancel').on('click', this.off);
+        $('#formSubmit').on('click', this.productEditer);
+        $('#selectAll').on('click', this.onClickAll);
+        $('#countriesSelector').on('change', this.onSelectCountry);
+
+        $('#name').on('input', this.onInputName);
+        $('#email').on('input', this.onInputEmail);
+        $('#count').on('input', this.onInputNumber);
+        $('#price').on('input', this.onInputNumber);
+        $('#price').on('focusout', this.onChangePrice);
+        $('#price').on('click', this.onClickPrice);
+    }
+
+    onChangePrice(ev) {
+        // shows price as number if the element loose focus
+        // $ 10,000.00 insted of 10000
+        const val = ev.target.value.trim();
+        if (val !== '' && val !== "0") {
+            console.log(val === '0')
+            ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter);
+        }
+    }
+
     onClickAll() {
         // makes all the checkbox of cities checed or unchecked in the container with chosen country
         const selectedCountry = $('#countriesSelector').val();
         
         if (selectedCountry !== 'choose'){
             $(`[data-country="${selectedCountry}"]` ).find('input').prop('checked', $('#selectAll').prop("checked"));
+        }
+    }
+
+    onClickPrice(ev) {
+        // shows price as number if the element was clicked
+        // 10000 insted of $ 10,000.00
+        if (this.productInformation && ev.target.value) {
+            ev.target.value = this.productInformation.price;
         }
     }
 
@@ -129,10 +194,11 @@ class ProductForm extends Application {
     }
 
     onInputNumber(ev) {
+        // keeps price and count values in the state as numbers
         let count = ev.target.value.trim();
         const elementId = ev.target.id;
         let reg, reg2;
-        
+        //chooses reg exp for price of count
         if (elementId === 'count') {
             reg = this.validation.number;
             reg2 = /\D/g;
@@ -143,13 +209,15 @@ class ProductForm extends Application {
 
         if (count !== '') {
             if (reg.test(count)) {
-
+                // if the value is valid it daves it in the store and gives is-valid class
                 const number = Number( (+count).toFixed(2) );
                 this.productInformation[elementId] = number;
                 this.formHighliter(true, $(`#${elementId}`));
                 
             } else {
-                
+                // if value has incorrect characters this characters will be replaced 
+                // and the value in the input and in the state will have correct value 
+                // with out incorrect characters
                 if (elementId === 'price') {
                     count = count.replace(reg2, '');
                     count = Number( (+count).toFixed(2) ) ;
@@ -158,7 +226,7 @@ class ProductForm extends Application {
                     count = Number( count.replace(reg2, '') );
                 }
                 
-                this.InputZeroValue(elementId, count);
+                this.inputIncorectNumber(elementId, count);
                 
                 if (count === 0) {
                     this.formHighliter(false, $(`#${elementId}`));
@@ -166,25 +234,10 @@ class ProductForm extends Application {
             }
 
         } else {
-            this.InputZeroValue(elementId, '');
+            // if the value in the input is empty string
+            // store 0 (nmber in the sotre) and add is-invalid class
+            this.inputIncorectNumber(elementId, '');
             this.formHighliter(false, $(`#${elementId}`));
-        }
-    }
-
-    onChangePrice(ev) {
-        // shows price as number if the element loose focus
-        // $ 10,000.00 insted of 10000
-        const val = ev.target.value.trim();
-        if (val !== '') {
-            ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter);
-        }
-    }
-
-    onClickPrice(ev) {
-        // shows price as number if the element was clicked
-        // 10000 insted of $ 10,000.00
-        if (this.productInformation && ev.target.value) {
-            ev.target.value = this.productInformation.price;
         }
     }
 
@@ -217,50 +270,6 @@ class ProductForm extends Application {
             $('#selectAll').prop('checked', false);
             $('.countryCities').addClass('displayNone');
         }
-    }
-
-    on() {
-        // adds events and displays form and darker
-        $('#an-container').removeClass('displayNone');
-        $('.darker').removeClass('displayNone');
-
-        $('#formCancel').on('click', this.off);
-        $('#formSubmit').on('click', this.productEditer);
-        $('#selectAll').on('click', this.onClickAll);
-        $('#countriesSelector').on('change', this.onSelectCountry);
-
-        $('#name').on('input', this.onInputName);
-        $('#email').on('input', this.onInputEmail);
-        $('#count').on('input', this.onInputNumber);
-        $('#price').on('input', this.onInputNumber);
-        $('#price').on('focusout', this.onChangePrice);
-        $('#price').on('click', this.onClickPrice);
-    }
-
-    off(ev) {
-        //removes events and hide the form and darker
-        ev.preventDefault()
-
-        $('#formCancel').off('click', this.onCancelform);
-        $('#formSubmit').off('click', this.onSubmitForm);
-        $('#selectAll').off('click', this.onClickAll);
-        $('#countriesSelector').off('change', this.onSelectCountry);
-
-        $('#name').off('input', this.onInputName);
-        $('#email').off('input', this.onInputEmail);
-        $('#count').off('input', this.onInputNumber);
-        $('#price').off('input', this.onInputNumber);
-        $('#price').off('focusout', this.onChangePrice);
-        $('#price').off('click', this.onClickPrice);
-
-        $('#selectAll').prop('checked', false);
-
-        $('#an-container').addClass('displayNone');
-        $('.darker').addClass('displayNone')
-
-        $('#addNewForm').find('input').val('');
-        $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid');
-        $('#addNewForm').find('input').removeClass('is-invalid');
     }
 
     productEditer(ev) {

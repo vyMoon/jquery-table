@@ -19,7 +19,7 @@ class Table extends Application {
         this.newItemAdder = this.newItemAdder.bind(this);
 
         this.structures = {
-            tableBody: `<% list.forEach( (el, index) => { %> 
+            tableBody1: `<% list.forEach( (el, index) => { %> 
                 <tr> 
                     <td><a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a></td> 
                     <td><%=el.count%></td> 
@@ -29,6 +29,22 @@ class Table extends Application {
                         <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> 
                     </td> 
                 </tr> 
+            <% }) %>`,
+
+            tableBody: `<% list.forEach( (el, index) => { %>
+                <tr> 
+                    <td>
+                        <div class="d-flex justify-content-between">
+                        <a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a>
+                            <span class="text-light rounded-pill bg-secondary px-3"><%=el.count%></span>
+                        </div>
+                    </td> 
+                    <td><%=table.priceMaker( el.price )%></td> 
+                    <td class="d-flex justify-content-around"> 
+                        <button type="button" class="btn btn-info" data-id="<%=el.id%>" data-action="edit">Edit</button> 
+                        <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> 
+                    </td> 
+                </tr>
             <% }) %>`
         }
 
@@ -39,7 +55,7 @@ class Table extends Application {
         newProduct.id = this.state.items.length + 1;
         this.state.items.push(newProduct);
 
-        console.log(newProduct)
+        // console.log(newProduct)
         this.renderTableBody('#productsTableBody')
     }
 
@@ -114,6 +130,8 @@ class Table extends Application {
         }
     }
 
+    
+
     sortingMarkersRender(rule, direction) {
         if (rule !== '') {
             // console.log(rule, direction)
@@ -147,6 +165,15 @@ class Table extends Application {
         // this.newItemAdder()
         // form.action()
 
+    }
+
+    editItem(id) {
+        console.log( this.state.items )
+        const product = this.state.items.findIndex( (el) => {
+            return el.id === id
+        })
+
+        console.log(this.state.items[product])
     }
 
     
