@@ -18,6 +18,9 @@ class ProductForm extends Application {
             'number': /^\d{1,}$/,
             'price': /^[0-9]*[.]?[0-9]{0,2}$/
         }
+
+        this.darker = new Darker();
+
         // binding functions that work with data about product
         this.onInputName = this.onInputName.bind(this);
         this.onInputEmail = this.onInputEmail.bind(this);
@@ -25,7 +28,8 @@ class ProductForm extends Application {
         this.onChangePrice = this.onChangePrice.bind(this);
         this.onClickPrice = this.onClickPrice.bind(this);
         this.productEditer = this.productEditer.bind(this);
-        
+        this.off = this.off.bind(this);
+
         // structures of elements
         // used for randering information about delivery for selectiong cities and countries
         this.structures = {
@@ -101,6 +105,8 @@ class ProductForm extends Application {
     off(ev) {
         //removes events and hide the form and darker
         ev.preventDefault()
+        // console.log(this)
+        this.darker.off()
 
         $('#formCancel').off('click', this.onCancelform);
         $('#formSubmit').off('click', this.onSubmitForm);
@@ -158,6 +164,7 @@ class ProductForm extends Application {
         // if the object has information about product
         // (this information should be passed in counstructor)
         // it fills the form
+        this.darker.render()
         if (this.productInformation.id) {
             this.formFiller()
         }
