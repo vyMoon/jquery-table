@@ -37,7 +37,7 @@ function onTableClick(ev) {
         }
         if(action === 'edit') {
             // console.log(id)
-            table.editItem(id)
+            table.updateItem(id)
         }
     }
 }
@@ -45,7 +45,7 @@ function onTableClick(ev) {
 $('#addNewProduct').click( (ev) => {
     ev.preventDefault();
     // console.log('add new product');
-    table.addNewItem()
+    table.updateItem()
 });
 
 $('.searchProductBtn').on('click', 'button',(ev) => {

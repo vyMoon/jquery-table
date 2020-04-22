@@ -19,6 +19,7 @@ class Table extends Application {
         this.newItemAdder = this.newItemAdder.bind(this);
         this.itemEditer = this.itemEditer.bind(this);
         this.deletItem = this.deletItem.bind(this);
+        this.updateData = this.updateData.bind(this);
 
         this.structures = {
             tableBody1: `<% list.forEach( (el, index) => { %> 
@@ -65,16 +66,16 @@ class Table extends Application {
         console.log('table edit item', this)
     }
 
-    deleteItem(id) {
-        const index = this.state.items.findIndex( (el) => {
-            return el.id === id;
-        });
+    // deleteItem(id) {
+    //     const index = this.state.items.findIndex( (el) => {
+    //         return el.id === id;
+    //     });
 
-        const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
+    //     const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
             
-        const p = new Promise( deleteConfirmation.render )
-        p.then( this.deletItem, this.onReject )
-    }
+    //     const p = new Promise( deleteConfirmation.render )
+    //     p.then( this.deletItem, this.onReject )
+    // }
 
     deletItem(index) {
         setTimeout( () => {
@@ -140,15 +141,51 @@ class Table extends Application {
         this.render(this.structures.tableBody, items, elementId);
     }
 
-    addNewItem() {
-        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder, undefined);
-        // console.log (this.addNewItem())
-        // form.on()
+    deleteItem(id) {
+        const index = this.state.items.findIndex( (el) => {
+            return el.id === id;
+        });
 
-        form.render(this.delivery)
-        // this.newItemAdder()
-        // form.action()
+        const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
+            
+        const p = new Promise( deleteConfirmation.render )
+        p.then( this.deletItem, this.onReject )
+    }
 
+    updateItem(id) {
+        let item;
+        if (id) {
+            const index = this.state.items.findIndex( (el) => {
+                return el.id === id;
+            });
+            if (index !== -1) {
+                item = this.state.items[index]
+            }
+        }
+        console.log(item);
+
+        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder, item, this.delivery);
+        const p = new Promise( form.render )
+        p.then( this.updateData, this.onReject )
+    }
+
+    updateData(data) {
+        
+        setTimeout( () => {
+            console.log(this)
+            if (data.id) {
+                const index = this.state.items.findIndex( (el) => {
+                    return el.id === data.id
+                });
+
+                this.state.items.splice(index, 1, data)
+
+            } else {
+                data.id = this.state.items.length + 1;
+                this.state.items.push(data);
+            }
+            this.renderTableBody('#productsTableBody')
+        }, 750)
     }
 
     editItem(id) {
@@ -157,7 +194,7 @@ class Table extends Application {
             return el.id === id
         })
 
-        const form = new ProductForm(this.currency, this.priceDelimiter, this.itemEditer, this.state.items[productId])
+        const form = new ProductForm(this.currency, this.priceDelimiter, this.itemEditer, this.state.items[productId], this.delivery)
 
         form.render(this.delivery)
     }

@@ -4,13 +4,14 @@
 // if object wasn't passed idt has empty abject
 // this situation can happen when user want to add a new product
 class ProductForm extends Application {
-    constructor(currency, priceDelimiter, action, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}) {
+    constructor(currency, priceDelimiter, action, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}, delivery ) {
         super();
         
         this.currency = currency;
         this.priceDelimiter = priceDelimiter;
         this.action = action;
         this.productInformation = productInformation;
+        this.delivery = delivery;
         // regular expressions for checking data
         this.validation = {
             'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
@@ -29,6 +30,7 @@ class ProductForm extends Application {
         this.onClickPrice = this.onClickPrice.bind(this);
         this.productEditer = this.productEditer.bind(this);
         this.off = this.off.bind(this);
+        this.render = this.render.bind(this)
 
         // structures of elements
         // used for randering information about delivery for selectiong cities and countries
@@ -104,7 +106,7 @@ class ProductForm extends Application {
 
     off(ev) {
         //removes events and hide the form and darker
-        ev.preventDefault()
+        // ev.preventDefault()
         // console.log(this)
         this.darker.off()
 
@@ -159,31 +161,7 @@ class ProductForm extends Application {
         }
     }
 
-    on() {
-        // adds events and displays form and darker
-        // if the object has information about product
-        // (this information should be passed in counstructor)
-        // it fills the form
-        this.darker.render()
-        if (this.productInformation.id) {
-            this.formFiller()
-        }
-
-        $('#an-container').removeClass('displayNone');
-        $('.darker').removeClass('displayNone');
-
-        $('#formCancel').on('click', this.off);
-        $('#formSubmit').on('click', this.productEditer);
-        $('#selectAll').on('click', this.onClickAll);
-        $('#countriesSelector').on('change', this.onSelectCountry);
-
-        $('#name').on('input', this.onInputName);
-        $('#email').on('input', this.onInputEmail);
-        $('#count').on('input', this.onInputNumber);
-        $('#price').on('input', this.onInputNumber);
-        $('#price').on('focusout', this.onChangePrice);
-        $('#price').on('click', this.onClickPrice);
-    }
+    
 
     onChangePrice(ev) {
         // shows price as number if the element loose focus
@@ -319,7 +297,7 @@ class ProductForm extends Application {
     productEditer(ev) {
         // check the whol form. if a value is not correct this input get focus
         // cif everylthing is ok compound  delivery informatin and saves the product
-        ev.preventDefault();
+        // ev.preventDefault();
 
         if (this.productInformation.name === '' || this.productInformation.name.length < 5 || this.productInformation.name.length > 15) {
             this.invalidFieldDetected('#name');
@@ -331,20 +309,72 @@ class ProductForm extends Application {
             this.invalidFieldDetected('#price');
         } else {
             this.productInformation.delivery = this.deliveryCreator();
-            this.action(this.productInformation);
-            this.off(ev);
+            // this.action(this.productInformation);
+            // this.off(ev);
+            return this.productInformation
         }
     }
 
-    render(deliveryIformation) {
+    on() {
+        // adds events and displays form and darker
+        // if the object has information about product
+        // (this information should be passed in counstructor)
+        // it fills the form
+        this.darker.render()
+        if (this.productInformation.id) {
+            this.formFiller()
+        }
+
+        $('#an-container').removeClass('displayNone');
+        $('.darker').removeClass('displayNone');
+
+        // $('#formCancel').on('click', this.off);
+        // $('#formSubmit').on('click', this.productEditer);
+        $('#selectAll').on('click', this.onClickAll);
+        $('#countriesSelector').on('change', this.onSelectCountry);
+
+        $('#name').on('input', this.onInputName);
+        $('#email').on('input', this.onInputEmail);
+        $('#count').on('input', this.onInputNumber);
+        $('#price').on('input', this.onInputNumber);
+        $('#price').on('focusout', this.onChangePrice);
+        $('#price').on('click', this.onClickPrice);
+    }
+
+    render(resolve, reject) {
         // renders countries as options of the select element of the form
         // and renders cities as checkboxes
-        const countries = Object.keys(deliveryIformation);
 
-        super.render(this.structures.cities, deliveryIformation, '#deliveryCities' );
+        console.log(this)
+        const countries = Object.keys(this.delivery);
+
+        super.render(this.structures.cities, this.delivery, '#deliveryCities' );
         super.render(this.structures.select, countries, '#countriesSelector');
         // adds events
         this.on();
+
+        $('#formCancel').on('click', onReject.bind(this) );
+        $('#formSubmit').on('click', onSolve.bind(this) );
+
+        function onSolve(ev) {
+            ev.preventDefault()
+            const data = this.productEditer()
+            // console.log(this.productEditer() )
+            if (data) {
+                this.off()
+                resolve(data)
+            }
+            // resolve('resolve')
+        }
+
+        function onReject(ev) {
+            ev.preventDefault()
+            // console.log('reject')
+            this.off()
+            reject()
+        }
+        
+
     }
 
 }
