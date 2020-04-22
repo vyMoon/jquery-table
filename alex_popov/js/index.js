@@ -13,12 +13,6 @@ const table = new Table(
 $( () => {
     table.renderTableBody('#productsTableBody');
 });
-// application.renderTableBody('productsTableBody')
-
-// Event setup using a convenience method
-// $( "p" ).click(function() {
-//     console.log( "You clicked a paragraph!" );
-// });
 
 $('#productsTableHead').click( (ev) => {
     ev.preventDefault()
@@ -28,18 +22,10 @@ $('#productsTableHead').click( (ev) => {
     }
 });
 
-// document.querySelector('#productsTableHead').addEventListener('click', (ev) => {
-//     ev.preventDefault()
-//     // console.log('table head');
-//     if (ev.target.dataset.sorting) {
-//         application.onClickSorting(ev.target.dataset.sorting, 'productsTableBody', ev.target.parentElement)
-//     }
-// })
+$('#productsTableBody').on('click', 'a', onTableClick);
+$('#productsTableBody').on('click', 'button', onTableClick);
 
-$('#productsTableBody').on('click', 'a', tableClick);
-$('#productsTableBody').on('click', 'button', tableClick);
-
-function tableClick(ev) {
+function onTableClick(ev) {
     ev.preventDefault();
     // console.log( $(this).data('action'))
     if( $(this).data('action') ) {
@@ -50,27 +36,17 @@ function tableClick(ev) {
             table.deleteItem(id)
         }
         if(action === 'edit') {
-            console.log(id)
+            // console.log(id)
             table.editItem(id)
         }
     }
 }
 
-// document.querySelector('#productsTableBody').addEventListener('click', (ev) => {
-//     ev.preventDefault();
-//     console.log('table body');
-// })
-
 $('#addNewProduct').click( (ev) => {
     ev.preventDefault();
-    console.log('add new product');
+    // console.log('add new product');
     table.addNewItem()
 });
-
-// document.querySelector('#addNewProduct').addEventListener('click', (ev) => {
-//     ev.preventDefault();
-//     console.log('add new product');
-// })
 
 $('.searchProductBtn').on('click', 'button',(ev) => {
     ev.preventDefault();
@@ -78,17 +54,7 @@ $('.searchProductBtn').on('click', 'button',(ev) => {
     console.log($(this).data('action'))
 });
 
-// document.querySelector('.searchProductBtn').addEventListener('click', (ev) => {
-//     ev.preventDefault();
-//     console.log('seatch btn')
-// })
-
 $('#searchField').on('input', (ev) => {
     ev.preventDefault();
     console.log('search field')
 })
-
-// document.querySelector('#searchField').addEventListener('input', (ev) => {
-//     ev.preventDefault();
-//     console.log('search field')
-// })

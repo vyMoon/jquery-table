@@ -30,14 +30,11 @@ class Application {
     }
 
     render(construction, items, elementId) {
-        let tmpl = _.template( construction );
-
         $( elementId ).html('')
 
+        let tmpl = _.template( construction );        
         $( elementId ).html( tmpl( {list: items} ) );
-        // setTimeout(function() {
-        //     $( elementId ).html( tmpl( {list: items} ) );
-        // }, 1000)
+
     }
 
     // sorter(items, field, bool) {

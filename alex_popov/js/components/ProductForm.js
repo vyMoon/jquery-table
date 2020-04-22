@@ -25,6 +25,7 @@ class ProductForm extends Application {
         this.onChangePrice = this.onChangePrice.bind(this);
         this.onClickPrice = this.onClickPrice.bind(this);
         this.productEditer = this.productEditer.bind(this);
+        
         // structures of elements
         // used for randering information about delivery for selectiong cities and countries
         this.structures = {
@@ -123,8 +124,44 @@ class ProductForm extends Application {
         $('#addNewForm').find('input').removeClass('is-invalid');
     }
 
+    formFiller() {
+        // the form filler function
+        // it is used in on() function of this object
+        // the priceMker is the function that is in the parent boject
+        const {name, email, count, price, delivery} = this.productInformation;
+
+        if (name) {
+            $('#name').val(name);
+        }
+        if (email) {
+            $('#email').val(email)
+        }
+        if (count) {
+            $('#count').val(count)
+        }
+        if (price) {
+            $('#price').val(this.priceMaker(price, this.currency, this.priceDelimiter))
+        }
+        if (delivery) {
+            for(let country in delivery) {
+                delivery[country].forEach( (el) => {
+                    // console.log(`${country}-${el}`)
+                    // console.log( $(`#${country}-${el}`) )
+                    $(`#${country}-${el}`).prop('checked', true)
+                })
+            }
+        }
+    }
+
     on() {
         // adds events and displays form and darker
+        // if the object has information about product
+        // (this information should be passed in counstructor)
+        // it fills the form
+        if (this.productInformation.id) {
+            this.formFiller()
+        }
+
         $('#an-container').removeClass('displayNone');
         $('.darker').removeClass('displayNone');
 

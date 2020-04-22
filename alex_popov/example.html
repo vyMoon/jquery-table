@@ -11,7 +11,7 @@
 <body>
 
     <div class="d-flex justify-content-between w-75">
-        <div class="w-50 input-group mb-3">
+        <div class="w-25 input-group mb-3">
             <input id="searchField" type="text" class="form-control searchField" placeholder="Product name" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button data-action="del" class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
         </div>
@@ -36,11 +36,37 @@
             </tr>
         </thead>
 
-        <tbody id="productsTableBody"></tbody>
+        <tbody id="productsTableBody">
+            <!-- <tr> 
+                <td class="">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" data-id="1" data-action="view">some prod</a>
+                        <span class="text-light rounded-pill bg-dark px-3 ">10</span>
+                    </div>
+                </td> 
+                <td>$ 10,000.00</td> 
+                <td class="d-flex justify-content-around"> 
+                    <button type="button" class="btn btn-info" data-id="<%=el.id%>" data-action="edit">Edit</button> 
+                    <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> 
+                </td> 
+            </tr>  -->
+        </tbody>
 
     </table>
 
-    <div id="confirmationContainer"></div>
+    <!-- <div class="displayNone screenFixed darker"></div> -->
+
+    <div class="displayNone MC-container screenFixed d-flex flex-column justify-content-around align-items-center">
+        <div class="modalConfirmation d-flex flex-column rounded text-white w-50">
+            <h4 class="mx-auto">You are going to delete </h4>
+            <h2 class="mx-auto" id="deletedContent">Example</h2>
+            <h4 class="mx-auto">are you shure?</h4>
+            <div class="modalConfirmation-buttons d-flex justify-content-around mt-4 px-5">
+                <button id="rejectDel" type="button" class="btn btn-success w-25">No</button>
+                <button id="solveDel" type="button" class="btn btn-danger w-25">Yes</button>
+            </div>
+        </div>
+    </div>
 
     <div id="an-container" class="displayNone screenFixed d-flex flex-column justify-content-around align-items-center">
         <div class="modalAddition bg-light d-flex flex-column rounded-lg px-2 py-2 w-50" >
@@ -87,10 +113,25 @@
                                     <input disabled type="checkbox" class="custom-control-input" id="selectAll">
                                     <label class="custom-control-label" for="selectAll">Slect all</label>
                                 </div>
+                                <!-- <div id="deliveryCities">
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+        
+                                </div> -->
                             </div>
-                            <div class="custom-checkbox" id="deliveryCities"></div>
+                            <div class="custom-checkbox" id="deliveryCities">
+                                <!-- <div>
+                                    <input type="checkbox" class="custom-control-input" id="4">
+                                    <label class="custom-control-label" for="4">kazakhstan</label>
+                                </div> -->
+    
+                            </div>
                         </div>
+                        
                     </div>
+                    
                 </div>
 
                 <div class="d-flex justify-content-around">
@@ -100,7 +141,6 @@
             </form>
         </div>
     </div>
-
 
 </body>
 

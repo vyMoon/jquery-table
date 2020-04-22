@@ -12,42 +12,67 @@ const products = [
         email: 'mail@mail.ru',
         count: 56,
         price: 70.5,
-        dilivery: false
+        delivery: {
+            'Russia': [
+                'Moscow'
+            ],
+            'Belorus': [
+                'Minsk'
+            ],
+            'US': [
+                'washington'
+            ],
+            'Japan': [
+                'Tokyo',
+                'Osaka',
+                'Himeji'
+            ],
+            'China': [
+                'Honkong'
+            ],
+            'Norway': [
+                'Oslo',
+                'Otta'
+            ],
+            'Finland': [
+                'Oulu'
+            ]
+        }
     }, {
         id: 2,
         name: 'Chocklate',
         email: 'mail1@mail.ru',
         count: 300,
         price: 1000000.73,
-        dilivery: false
+        delivery: false
     }, {
         id: 3,
         name: 'Iphone 2',
         email: 'mail2@mail.ru',
         count: 57,
         price: 1500.57,
-        dilivery: false
+        delivery: false
     }, {
         id: 4,
         name: 'Intel Pentium 4',
         email: 'mail@mail.ru',
         count: 256,
         price: 1001,
-        dilivery: false
+        delivery: false
     }, {
         id: 5,
         name: 'Star Wars DVD',
         email: 'mail1@mail.ru',
         count: 350,
         price: 5140.2,
-        dilivery: false
+        delivery: false
     }, {
         id: 6,
         name: 'Toy Train',
         email: 'mail2@mail.ru',
         count: 566,
         price: 560.35,
-        dilivery: false
+        delivery: false
     }
 ];
 

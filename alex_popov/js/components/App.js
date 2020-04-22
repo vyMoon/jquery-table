@@ -17,6 +17,8 @@ class Table extends Application {
         }
 
         this.newItemAdder = this.newItemAdder.bind(this);
+        this.itemEditer = this.itemEditer.bind(this);
+        this.deletItem = this.deletItem.bind(this);
 
         this.structures = {
             tableBody1: `<% list.forEach( (el, index) => { %> 
@@ -36,7 +38,7 @@ class Table extends Application {
                     <td>
                         <div class="d-flex justify-content-between">
                         <a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a>
-                            <span class="text-light rounded-pill bg-secondary px-3"><%=el.count%></span>
+                            <span class="text-light rounded-pill bg-secondary px-2"><%=el.count%></span>
                         </div>
                     </td> 
                     <td><%=table.priceMaker( el.price )%></td> 
@@ -59,48 +61,30 @@ class Table extends Application {
         this.renderTableBody('#productsTableBody')
     }
 
+    itemEditer() {
+        console.log('table edit item', this)
+    }
+
     deleteItem(id) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === id;
         });
 
-        // const p = new Promise(promiseF.bind(this))
+        const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
+            
+        const p = new Promise( deleteConfirmation.render )
+        p.then( this.deletItem, this.onReject )
+    }
 
-        function promiseF(resolve, reject) {
-            // console.log(this)
-            $('#deletedContent').text(this.state.items[index].name)
-            $('.darker').removeClass('displayNone')
-            $('.MC-container').removeClass('displayNone')
-
-            const solve = () => {
-                console.log('ckikc')
-                $('.darker').addClass('displayNone')
-                $('.MC-container').addClass('displayNone')
-                $('#rejectDel').off('click', reject)
-                $('#solveDel').off('click', solve)
-                resolve(index)
-            }
-
-            function reject() {
-                console.log('reject')
-                $('.darker').addClass('displayNone')
-                $('.MC-container').addClass('displayNone')
-                $('#rejectDel').off('click', reject)
-                $('#solveDel').off('click', solve)
-            }
-            $('#rejectDel').on('click', reject )
-            $('#solveDel').on('click', solve )
-        }
-
-        const next = (index) => {
-            // console.log(this.state.items)
-            console.log( this.state.items.splice(index, 1) )
-            console.log(index)
-            console.log(this.state.items)
+    deletItem(index) {
+        setTimeout( () => {
+            this.state.items.splice(index, 1) 
             this.renderTableBody('#productsTableBody')
-        }
-        const p = new Promise(promiseF.bind(this))
-        p.then( next )
+        }, 750)
+    }
+
+    onReject() {
+        console.log('action was rejected')
     }
 
     onClickSorting(newRule, elementId, target) {
@@ -157,7 +141,7 @@ class Table extends Application {
     }
 
     addNewItem() {
-        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder);
+        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder, undefined);
         // console.log (this.addNewItem())
         // form.on()
 
@@ -168,12 +152,14 @@ class Table extends Application {
     }
 
     editItem(id) {
-        console.log( this.state.items )
-        const product = this.state.items.findIndex( (el) => {
+        // console.log( this.state.items )
+        const productId = this.state.items.findIndex( (el) => {
             return el.id === id
         })
 
-        console.log(this.state.items[product])
+        const form = new ProductForm(this.currency, this.priceDelimiter, this.itemEditer, this.state.items[productId])
+
+        form.render(this.delivery)
     }
 
     
