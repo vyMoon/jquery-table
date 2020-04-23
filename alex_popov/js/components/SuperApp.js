@@ -37,24 +37,6 @@ class Application {
 
     }
 
-    // sorter(items, field, bool) {
-    //     const sortingRule = ( a, b) => {
-    //         if ( a[field] > b[field] ) {
-    //             return 1
-    //         }
-    //         if ( a[field] < b[field] ) {
-    //             return -1
-    //         }
-    //         return 0
-    //     }
-
-    //     this.sort(sortingRule)
-        
-    //     if ( !bool ) {
-    //         this.reverse()
-    //     }
-    // }
-
     visibiliter(bool, container, ...targets) {
         // it shows and hides arrows that show the current direction of sorting
         // choses container, passed argument can be a selector or 0 

@@ -10,10 +10,12 @@
 
 <body>
 
-    <div class="d-flex justify-content-between w-75">
-        <div class="w-50 input-group mb-3">
-            <input id="searchField" type="text" class="form-control searchField" placeholder="Product name" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button data-action="del" class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
+    <div id="tableContainer"></div>
+
+    <!-- <div class="d-flex justify-content-between w-75">
+        <div id="searchContainer" class="w-50 input-group mb-3">
+            <input id="searchField" type="text" class="form-control mr-3" placeholder="Enter poduct name" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button data-action="search" class="btn btn-success searchProductBtn" type="button" id="button-addon2">Search</button>
         </div>
         <button id="addNewProduct" type="button" class="btn btn-primary align-self-baseline">Add new</button>
     </div>
@@ -38,7 +40,7 @@
 
         <tbody id="productsTableBody"></tbody>
 
-    </table>
+    </table> -->
 
     <div id="confirmationContainer"></div>
 
@@ -73,7 +75,6 @@
                     </div>
                     <div class="d-flex flex-row row">
                         <div class="my-1 mr-1 col">
-                            <!-- <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Delivery:</label> -->
                             <select class="form-control form-control-sm" id="countriesSelector">
                                 <option selected>Countries...</option>
                                 <option value="1">One</option>
@@ -109,15 +110,10 @@
 <script src="./js/components/ProductForm.js"></script>
 <script src="./js/components/Darker.js"></script>
 <script src="./js/components/DeleteConfirmation.js"></script>
-
 <script src="./js/config.js"></script>
 
 <script src="./js/jquery/jquery-3.5.0.min.js"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-
 <script src="./js/lodash/lodash.min.js"></script>
-
-<script src="./js/templates/table_body.js"></script> <!-- сейчас не исползуется вся информация в коасе -->
 
 <script src="./js/index.js"></script>
 

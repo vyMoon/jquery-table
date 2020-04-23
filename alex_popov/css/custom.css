@@ -1,6 +1,6 @@
-.searchField {
+/* .searchField {
     margin-right: 15px;
-}
+} */
 
 .screenFixed {
     position: fixed;
@@ -22,10 +22,6 @@
     left: 50%;
     margin-top: -100px;
     margin-left: -250px; */
-}
-
-.modalAddition {
-
 }
 
 .displayNone {

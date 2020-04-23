@@ -168,7 +168,7 @@ class ProductForm extends Application {
         // $ 10,000.00 insted of 10000
         const val = ev.target.value.trim();
         if (val !== '' && val !== "0") {
-            console.log(val === '0')
+            // console.log(val === '0')
             ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter);
         }
     }
@@ -345,7 +345,7 @@ class ProductForm extends Application {
         // renders countries as options of the select element of the form
         // and renders cities as checkboxes
 
-        console.log(this)
+        // console.log(this)
         const countries = Object.keys(this.delivery);
 
         super.render(this.structures.cities, this.delivery, '#deliveryCities' );
