@@ -19,7 +19,9 @@ class Table extends Application {
 
         this.deletItem = this.deletItem.bind(this);
         this.updateData = this.updateData.bind(this);
-        this.onInputSearchField = this.onInputSearchField.bind(this)
+        this.onInputSearchField = this.onInputSearchField.bind(this);
+        this.goSearch = this.goSearch.bind(this);
+        this.onTableClick = this.onTableClick.bind(this);
 
         this.structures = {
 
@@ -123,26 +125,6 @@ class Table extends Application {
         }
     }
 
-    // renderTableBody(elementId) {
-    //     const {rule, direction} = this.state.sorting;
-    //     const { search } = this.state;
-    //     let items = this.state.items.slice();
-
-    //     if (search !== '') {
-    //         items = items.filter( (ev) => {
-    //             return ev.name.toLowerCase().indexOf(search.toLowerCase()) > -1
-    //         })
-    //     }
-
-    //     if (rule !== '') {
-    //         this.sorter.call(items, items, rule, direction);
-    //         this.sortingMarkersRender(rule, direction);
-    //     }
-
-    //     $('#tableContainer').html(this.structures.tableHead)
-    //     this.render(this.structures.tableBody, items, elementId);
-    // }
-
     deleteItem(id) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === id;
@@ -164,7 +146,6 @@ class Table extends Application {
                 item = this.state.items[index]
             }
         }
-        // console.log(item);
 
         const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder, item, this.delivery);
         const p = new Promise( form.render )
@@ -192,17 +173,11 @@ class Table extends Application {
     }
 
     onInputSearchField(ev) {
-        // console.log('input search')
         this.state.search = ev.currentTarget.value;
-        // console.log(this.state)
+        console.log(this.state)
         if (ev.currentTarget.value === '') {
             this.renderTableBody('#productsTableBody')
         }
-    }
-
-    goSearch() {
-        // console.log('search')
-        this.renderTableBody('#productsTableBody');
     }
 
     renderTableBody(elementId) {
@@ -221,34 +196,55 @@ class Table extends Application {
             this.sortingMarkersRender(rule, direction);
         }
 
-        $('#tableContainer').html(this.structures.tableHead);
         this.render(this.structures.tableBody, items, elementId);
+    }
+
+    goSearch(ev) {
+        if (ev.type === 'click' || (ev.type === 'keydown' && ev.which === 13) ) {
+            this.renderTableBody('#productsTableBody');
+        }
+    }
+
+    onTableClick(ev) {
+        ev.preventDefault();
+         
+        if( $(ev.currentTarget).data('action') ) {
+    
+            const id = $(ev.currentTarget).data('id')
+            const action = $(ev.currentTarget).data('action')
+    
+            if (action === 'delete') {
+                this.deleteItem(id)
+            }
+            if(action === 'edit') {
+                this.updateItem(id)
+            }
+        }
     }
 
     start() {
         $('#tableContainer').html(this.structures.tableHead)
         this.renderTableBody('#productsTableBody');
 
+
+        $('#productsTableHead').click( (ev) => {
+            ev.preventDefault()
+            
+            if (ev.target.dataset.sorting) {
+                this.onClickSorting(ev.target.dataset.sorting, '#productsTableBody', ev.target.parentElement)
+            }
+        });
+
         $('#addNewProduct').click( (ev) => {
-            ev.preventDefault();
+            ev.preventDefault()
             this.updateItem()
         });
         
-        $('#searchContainer').on('click', 'button', function(ev) {
-            ev.preventDefault()
-            // console.log( $(this).data('action'))
-            this.goSearch()
-        })
-        
+        $('#productsTableBody').on('click', 'a', this.onTableClick);
+        $('#productsTableBody').on('click', 'button', this.onTableClick);
+        $('#searchContainer').on('click', 'button', this.goSearch)
         $('#searchContainer').on('input', 'input', this.onInputSearchField)
-        
-        $('#searchContainer').keydown( (ev) => {
-            if (ev.which === 13) {
-                // console.log('search')
-                this.goSearch()
-            }
-        });
+        $('#searchContainer').keydown( this.goSearch);
     }
-
 
 }

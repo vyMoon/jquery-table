@@ -35,21 +35,76 @@ class ProductForm extends Application {
         // structures of elements
         // used for randering information about delivery for selectiong cities and countries
         this.structures = {
+            form: `<% list.forEach( (el) => { %>
+                    <div id="an-container" class="screenFixed d-flex flex-column justify-content-around align-items-center">
+                        <div class="modalAddition bg-light d-flex flex-column rounded-lg px-2 py-2 w-50" >
+                            <h4 id="prodictDetails"><%=el.message%></h4>
+                            <form class="border-top" id="addNewForm">
+
+                                <div class="form-group ">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="name" aria-describedby="emailHelp">
+                                    <small id="emailHelp" class="form-text text-muted">name can have from 5 to 15 characters, and can't ontain spaces only</small>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="email">Supplier email</label>
+                                    <input type="text" class="form-control form-control-sm" id="email" aria-describedby="emailHelp">
+                                    <small id="emailHelp" class="form-text text-muted">valid email like example@mail.com</small>
+                                </div>
+                                <div class="form-groupw w-25">
+                                    <label for="count">Count</label>
+                                    <input type="text" class="form-control form-control-sm" id="count" aria-describedby="emailHelp">
+                                    <small id="emailHelp" class="form-text text-muted">positive number only</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input type="text" class="form-control form-control-sm" id="price" aria-describedby="emailHelp">
+                                    <small id="emailHelp" class="form-text text-muted">positive number only</small>
+                                </div>
+
+                                <div>
+                                    <div>
+                                        <label class="" for="countriesSelector">Delivery:</label>
+                                    </div>
+                                    <div class="d-flex flex-row row">
+                                        <div class="my-1 mr-1 col">
+                                            <select class="form-control form-control-sm" id="countriesSelector"></select>
+                                        </div>
+                                        <div class="form-cities col my-1 overflow-auto pl-4">
+                                            <div class="custom-checkbox d-flex flex-column">
+                                                <div class="border-bottom">
+                                                    <input disabled type="checkbox" class="custom-control-input" id="selectAll">
+                                                    <label class="custom-control-label" for="selectAll">Slect all</label>
+                                                </div>
+                                            </div>
+                                            <div class="custom-checkbox" id="deliveryCities"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-around">
+                                    <button type="submit" class="btn btn-primary" id="formSubmit">Edit</button>
+                                    <button type="submit" class="btn btn-primary" id="formCancel">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>`,
+
             select: `<option value="choose">choose</option>
-            <% list.forEach( (el, index) => { %>
-                <option value="<%=el%>"><%=el%></option>
-            <% }) %>`,
+                <% list.forEach( (el, index) => { %>
+                    <option value="<%=el%>"><%=el%></option>
+                <% }) %>`,
 
             cities: `<% for( let country in list ) { %> 
-                <div class="displayNone countryCities" data-country="<%=country%>"> 
-                    <% list[country].forEach( (el) => { %> 
-                        <div>
-                            <input type="checkbox" class="custom-control-input" id="<%=country%>-<%=el%>"> 
-                            <label class="custom-control-label" for="<%=country%>-<%=el%>"><%=el%></label> 
-                        </div> 
-                    <% }) %> 
-                </div> 
-            <% } %>`
+                    <div class="displayNone countryCities" data-country="<%=country%>"> 
+                        <% list[country].forEach( (el) => { %> 
+                            <div>
+                                <input type="checkbox" class="custom-control-input" id="<%=country%>-<%=el%>"> 
+                                <label class="custom-control-label" for="<%=country%>-<%=el%>"><%=el%></label> 
+                            </div> 
+                        <% }) %> 
+                    </div> 
+                <% } %>`
         }
     }
 
@@ -110,11 +165,8 @@ class ProductForm extends Application {
         // console.log(this)
         this.darker.off()
 
-        $('#formCancel').off('click', this.onCancelform);
-        $('#formSubmit').off('click', this.onSubmitForm);
         $('#selectAll').off('click', this.onClickAll);
         $('#countriesSelector').off('change', this.onSelectCountry);
-
         $('#name').off('input', this.onInputName);
         $('#email').off('input', this.onInputEmail);
         $('#count').off('input', this.onInputNumber);
@@ -122,14 +174,16 @@ class ProductForm extends Application {
         $('#price').off('focusout', this.onChangePrice);
         $('#price').off('click', this.onClickPrice);
 
-        $('#selectAll').prop('checked', false);
+        $('#formContainer').html('')
 
-        $('#an-container').addClass('displayNone');
-        $('.darker').addClass('displayNone')
+        // $('#selectAll').prop('checked', false);
 
-        $('#addNewForm').find('input').val('');
-        $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid');
-        $('#addNewForm').find('input').removeClass('is-invalid');
+        // $('#an-container').addClass('displayNone');
+        // $('.darker').addClass('displayNone')
+
+        // $('#addNewForm').find('input').val('');
+        // $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid');
+        // $('#addNewForm').find('input').removeClass('is-invalid');
     }
 
     formFiller() {
@@ -309,8 +363,7 @@ class ProductForm extends Application {
             this.invalidFieldDetected('#price');
         } else {
             this.productInformation.delivery = this.deliveryCreator();
-            // this.action(this.productInformation);
-            // this.off(ev);
+
             return this.productInformation
         }
     }
@@ -321,15 +374,13 @@ class ProductForm extends Application {
         // (this information should be passed in counstructor)
         // it fills the form
         this.darker.render()
+
         if (this.productInformation.id) {
             this.formFiller()
         }
 
-        $('#an-container').removeClass('displayNone');
-        $('.darker').removeClass('displayNone');
+        // $('#an-container').removeClass('displayNone');
 
-        // $('#formCancel').on('click', this.off);
-        // $('#formSubmit').on('click', this.productEditer);
         $('#selectAll').on('click', this.onClickAll);
         $('#countriesSelector').on('change', this.onSelectCountry);
 
@@ -345,9 +396,10 @@ class ProductForm extends Application {
         // renders countries as options of the select element of the form
         // and renders cities as checkboxes
 
-        // console.log(this)
+        const message = this.productInformation.name ? `Edit ${this.productInformation.name} item` : `Add new Item` ;
         const countries = Object.keys(this.delivery);
 
+        super.render(this.structures.form, [ {message: message} ], '#formContainer');
         super.render(this.structures.cities, this.delivery, '#deliveryCities' );
         super.render(this.structures.select, countries, '#countriesSelector');
         // adds events
@@ -359,22 +411,17 @@ class ProductForm extends Application {
         function onSolve(ev) {
             ev.preventDefault()
             const data = this.productEditer()
-            // console.log(this.productEditer() )
             if (data) {
                 this.off()
                 resolve(data)
             }
-            // resolve('resolve')
         }
 
         function onReject(ev) {
             ev.preventDefault()
-            // console.log('reject')
             this.off()
             reject()
         }
-        
-
     }
 
 }

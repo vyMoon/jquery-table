@@ -31,8 +31,7 @@ class Application {
 
     render(construction, items, elementId) {
         $( elementId ).html('')
-
-        let tmpl = _.template( construction );        
+        let tmpl = _.template( construction );    
         $( elementId ).html( tmpl( {list: items} ) );
 
     }
