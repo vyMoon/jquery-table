@@ -3,7 +3,7 @@ class Darker {
         this.structure = {
             tag: '<div/>',
             attr: {
-                'class': 'screenFixed darker'
+                'class': 'screenFixed darker bg-dark'
             }
         }
     }

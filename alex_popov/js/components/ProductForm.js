@@ -71,7 +71,7 @@ class ProductForm extends Application {
                 
                                     <div class="pl-5 col form-cities col my-1 overflow-auto pl-4">
                                         <div class="custom-checkbox d-flex flex-column">
-                                            <div class="border-bottom">
+                                            <div class="">
                                                 <input disabled type="checkbox" class="custom-control-input" id="selectAll">
                                                 <label class="custom-control-label" for="selectAll">Slect all</label>
                                             </div>
@@ -80,7 +80,7 @@ class ProductForm extends Application {
                                     </div>
                                 </div>
                                 
-                                <div class="d-flex justify-content-around">
+                                <div class="d-flex justify-content-around pt-1">
                                     <button type="submit" class="btn btn-primary" id="formSubmit">Edit</button>
                                     <button type="submit" class="btn btn-primary" id="formCancel">Cancel</button>
                                 </div>
@@ -160,8 +160,7 @@ class ProductForm extends Application {
 
     off(ev) {
         //removes events and hide the form and darker
-        // ev.preventDefault()
-        // console.log(this)
+
         this.darker.off()
 
         $('#selectAll').off('click', this.onClickAll);
@@ -174,15 +173,6 @@ class ProductForm extends Application {
         $('#price').off('click', this.onClickPrice);
 
         $('#formContainer').html('')
-
-        // $('#selectAll').prop('checked', false);
-
-        // $('#an-container').addClass('displayNone');
-        // $('.darker').addClass('displayNone')
-
-        // $('#addNewForm').find('input').val('');
-        // $('#addNewForm').find('input').removeClass('is-valid', 'is-invalid');
-        // $('#addNewForm').find('input').removeClass('is-invalid');
     }
 
     formFiller() {
@@ -206,8 +196,6 @@ class ProductForm extends Application {
         if (delivery) {
             for(let country in delivery) {
                 delivery[country].forEach( (el) => {
-                    // console.log(`${country}-${el}`)
-                    // console.log( $(`#${country}-${el}`) )
                     $(`#${country}-${el}`).prop('checked', true)
                 })
             }
@@ -221,7 +209,6 @@ class ProductForm extends Application {
         // $ 10,000.00 insted of 10000
         const val = ev.target.value.trim();
         if (val !== '' && val !== "0") {
-            // console.log(val === '0')
             ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter);
         }
     }
@@ -254,7 +241,6 @@ class ProductForm extends Application {
             this.productInformation.name = this.productInformation.name.slice(0, -1);
             $('#name').val(this.productInformation.name);
         }
-
         this.formHighliter(this.productInformation.name.length > 4, $('#name') );
     }
 
@@ -322,6 +308,7 @@ class ProductForm extends Application {
         // if all the cities were checked selecet all wil be checked
         if (this.value !== 'choose') {
             $('#selectAll').attr('disabled', false);
+            $('#selectAll').parent().addClass('border-bottom');
             $('.countryCities').addClass('displayNone');
             $(`[data-country="${this.value}"]`).removeClass('displayNone');
         
@@ -343,6 +330,7 @@ class ProductForm extends Application {
         } else {
             $('#selectAll').attr('disabled', true);
             $('#selectAll').prop('checked', false);
+            $('#selectAll').parent().removeClass('border-bottom')
             $('.countryCities').addClass('displayNone');
         }
     }

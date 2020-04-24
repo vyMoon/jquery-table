@@ -57,20 +57,20 @@ class Table extends Application {
                 </table>`,
 
             tableBody: `<% list.forEach( (el, index) => { %>
-                <tr> 
-                    <td>
-                        <div class="d-flex justify-content-between">
-                        <a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a>
-                            <span class="text-light rounded-pill bg-secondary px-2"><%=el.count%></span>
-                        </div>
-                    </td> 
-                    <td><%=table.priceMaker( el.price )%></td> 
-                    <td class="d-flex justify-content-around"> 
-                        <button type="button" class="btn btn-info" data-id="<%=el.id%>" data-action="edit">Edit</button> 
-                        <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> 
-                    </td> 
-                </tr>
-            <% }) %>`
+                    <tr> 
+                        <td>
+                            <div class="d-flex justify-content-between">
+                            <a href="#" data-id="<%=el.id%>" data-action="view"><%=el.name%></a>
+                                <span class="text-light rounded-pill bg-secondary px-2"><%=el.count%></span>
+                            </div>
+                        </td> 
+                        <td><%=table.priceMaker( el.price )%></td> 
+                        <td class="d-flex justify-content-around"> 
+                            <button type="button" class="btn btn-info" data-id="<%=el.id%>" data-action="edit">Edit</button> 
+                            <button type="button" class="btn btn-danger" data-id="<%=el.id%>" data-action="delete">Delete</button> 
+                        </td> 
+                    </tr>
+                <% }) %>`
         }
 
     }
@@ -218,6 +218,10 @@ class Table extends Application {
             }
             if(action === 'edit') {
                 this.updateItem(id)
+            }
+            if (action === 'view') {
+                console.log(id)
+                
             }
         }
     }

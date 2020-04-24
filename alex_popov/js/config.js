@@ -77,57 +77,13 @@ const products = [
 ];
 
 const delivery = {
-    'Russia': [
-        'Moscow',
-        'Voronezh',
-        'Orel'
-    ],
-    'Belorus': [
-        'Minsk',
-        'Narva',
-        'Ghomel'
-    ],
-    'US': [
-        'washington',
-        'Sietl',
-        'Buclin'
-    ],
-    'Japan': [
-        'Tokyo',
-        'Osaka',
-        'Himeji'
-    ],
-    'China': [
-        'Honkong',
-        'Pekin',
-        'Guachzou'
-    ],
-    'Sweden': [
-        'Stocholm',
-        'Lindchopong',
-        'Geteborg'
-    ],
-    'Norway': [
-        'Oslo',
-        'Bergen',
-        'Otta'
-    ],
-    'Finland': [
-        'Helsinki',
-        'Kouvola',
-        'Oulu'
-    ],
-    'Mexico': [],
-    'Ghana': [],
-    'Turkey': [],
-    'Georgia': [],
-    'Brazil': [],
-    'Canada': [],
-    'Spain': [],
-    'Gemany': [],
-    'Franse': [],
-    'Ireland': [],
+    'Russia': ['Moscow','Voronezh','Orel', 'StPetersburg','Novosibirsk','Ekaterinburg' ,'Samara','Omsk','Kazan','Chelyabinsk'],
+    'Belorus': ['Minsk','Narva','Ghomel', 'Mogilev', 'Vitebsk', 'Grodno', 'Baranovichi', 'Pinsk','Borisov', 'Babruysk' ,'Brest'],
+    'US': ['washington','Sietl','Buclin', 'Dallas', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia'],
+    'Japan': ['Tokyo','Osaka','Himeji', 'Hiroshima', 'Nagoya', 'Toyohashi', 'Okazaki', 'Ichinomiya', 'Seto', 'Handa','Kasugai'],
+    'China': ['Honkong','Pekin','Guachzou','Macau' , 'Chongqing', 'Shanghai', 'Tianjin', 'Anqing'],
+    'Sweden': ['Stocholm', 'Lindchopong', 'Geteborg', 'Gränna', 'Halmstad', 'Helsingborg', 'Härnösand', 'Karlshamn'],
+    'Norway': ['Oslo', 'Bergen', 'Otta', 'Bodø', 'Farsund', 'Gjøvik', 'Harstad', 'Hamar', 'Horten', 'Grimstad','Florø' ],
+    'Finland': ['Helsinki', 'Kouvola', 'Oulu', 'Alajärvi', 'Espoo', 'Heinola', 'Imatra', 'Iisalmi', 'Hyvinkää', 'Huittinen'],
     'Wales': ['Narberth', 'Neath', 'Nefyn', 'Newbridge', 'Newcastle', 'Emlyn', 'Newport', 'Newtown', 'Neyland' ],
-    'Scotland': [],
-
-}
+}	

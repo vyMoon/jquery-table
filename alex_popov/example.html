@@ -1,3 +1,36 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/custom.css">
+</head>
+
+<body>
+
+    <div id="tableContainer"></div>
+    <div id="confirmationContainer"></div>
+    <div id="formContainer"></div>
+
+</body>
+
+<script src="./js/components/SuperApp.js"></script>
+<script src="./js/components/App.js"></script>
+<script src="./js/components/ProductForm.js"></script>
+<script src="./js/components/Darker.js"></script>
+<script src="./js/components/DeleteConfirmation.js"></script>
+<script src="./js/config.js"></script>
+
+<script src="./js/jquery/jquery-3.5.0.min.js"></script>
+<script src="./js/lodash/lodash.min.js"></script>
+
+<script src="./js/index.js"></script>
+
+</html> -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +87,7 @@
 
     </table>
 
-    <!-- <div class="displayNone screenFixed darker"></div> -->
+    <div class="screenFixed darker"></div>
 
     <div class="displayNone MC-container screenFixed d-flex flex-column justify-content-around align-items-center">
         <div class="modalConfirmation d-flex flex-column rounded text-white w-50">
@@ -68,8 +101,8 @@
         </div>
     </div>
 
-    <div id="an-container" class="displayNone screenFixed d-flex flex-column justify-content-around align-items-center">
-        <div class="modalAddition bg-light d-flex flex-column rounded-lg px-2 py-2 w-50" >
+    <div id="an-container" class=" screenFixed d-flex flex-column justify-content-around align-items-center">
+        <div class="modalAddition bg-light d-flex flex-column rounded-lg px-4 py-2 w-50" >
             <h4 id="prodictDetails">Product Name</h4>
             <form class="border-top" id="addNewForm">
                 <div class="form-group ">
@@ -97,8 +130,8 @@
                     <div>
                         <label class="" for="countriesSelector">Delivery:</label>
                     </div>
-                    <div class="d-flex flex-row row">
-                        <div class="my-1 mr-1 col">
+                    <div class="row">
+                        <div class="col">
                             <!-- <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Delivery:</label> -->
                             <select class="form-control form-control-sm" id="countriesSelector">
                                 <option selected>Countries...</option>
@@ -107,28 +140,71 @@
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="form-cities col my-1 overflow-auto pl-4">
+
+
+
+
+
+                        <div class="col form-cities col my-1 overflow-auto pl-4">
                             <div class="custom-checkbox d-flex flex-column">
                                 <div class="border-bottom">
                                     <input disabled type="checkbox" class="custom-control-input" id="selectAll">
                                     <label class="custom-control-label" for="selectAll">Slect all</label>
                                 </div>
-                                <!-- <div id="deliveryCities">
+                                <div id="deliveryCities">
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="custom-control-input" id="4">
+                                        <label class="custom-control-label" for="4">kazakhstan</label>
+                                    </div>
                                     <div>
                                         <input type="checkbox" class="custom-control-input" id="4">
                                         <label class="custom-control-label" for="4">kazakhstan</label>
                                     </div>
         
-                                </div> -->
+                                </div>
                             </div>
-                            <div class="custom-checkbox" id="deliveryCities">
-                                <!-- <div>
-                                    <input type="checkbox" class="custom-control-input" id="4">
-                                    <label class="custom-control-label" for="4">kazakhstan</label>
-                                </div> -->
     
-                            </div>
                         </div>
+
+
+
+                        
                         
                     </div>
                     
