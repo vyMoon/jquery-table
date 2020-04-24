@@ -22,6 +22,7 @@ class Table extends Application {
         this.onInputSearchField = this.onInputSearchField.bind(this);
         this.goSearch = this.goSearch.bind(this);
         this.onTableClick = this.onTableClick.bind(this);
+        this.viewer = this.viewer.bind(this)
 
         this.structures = {
 
@@ -75,157 +76,6 @@ class Table extends Application {
 
     }
 
-
-    deletItem(index) {
-        setTimeout( () => {
-            this.state.items.splice(index, 1);
-            localStorage.setItem('productList', JSON.stringify(this.state.items))
-            this.renderTableBody('#productsTableBody')
-        }, 750)
-    }
-
-    onReject() {
-        console.log('action was rejected')
-    }
-
-    onClickSorting(newRule, elementId, target) {
-        super.onClickSorting(newRule, target);
-        this.renderTableBody(elementId);
-    }
-
-    priceMaker(num) {
-        return super.priceMaker(num, this.currency, this.priceDelimiter)
-    }
-
-    sorter(items, field, bool) {
-
-        const sortingRule = (a,b) => {
-            if (typeof a[field] == 'string' && typeof b[field] == 'string') {
-                return a[field].toLowerCase().localeCompare(b[field].toLowerCase())
-            } else {
-                return a[field] - b[field];
-            }
-        }
-
-        this.sort(sortingRule)
-        
-        if ( !bool ) {
-            this.reverse()
-        }
-    }
-
-    
-
-    sortingMarkersRender(rule, direction) {
-        if (rule !== '') {
-            const selector = direction ? '.iconSortingDirect': '.iconSortingReverse' ;
-
-            this.visibiliter(false, 0, '.iconSorting');
-            this.visibiliter(true, document.querySelector(`.${rule}`), selector);
-        }
-    }
-
-    deleteItem(id) {
-        const index = this.state.items.findIndex( (el) => {
-            return el.id === id;
-        });
-
-        const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
-            
-        const p = new Promise( deleteConfirmation.render )
-        p.then( this.deletItem, this.onReject )
-    }
-
-    updateItem(id) {
-        let item;
-        if (id) {
-            const index = this.state.items.findIndex( (el) => {
-                return el.id === id;
-            });
-            if (index !== -1) {
-                item = this.state.items[index]
-            }
-        }
-
-        const form = new ProductForm(this.currency, this.priceDelimiter, this.newItemAdder, item, this.delivery);
-        const p = new Promise( form.render )
-        p.then( this.updateData, this.onReject )
-    }
-
-    updateData(data) {
-        
-        setTimeout( () => {
-            // console.log(this)
-            if (data.id) {
-                const index = this.state.items.findIndex( (el) => {
-                    return el.id === data.id
-                });
-
-                this.state.items.splice(index, 1, data)
-
-            } else {
-                data.id = this.state.items.length + 1;
-                this.state.items.push(data);
-            }
-            localStorage.setItem('productList', JSON.stringify(this.state.items))
-            this.renderTableBody('#productsTableBody')
-        }, 750)
-    }
-
-    onInputSearchField(ev) {
-        this.state.search = ev.currentTarget.value;
-        console.log(this.state)
-        if (ev.currentTarget.value === '') {
-            this.renderTableBody('#productsTableBody')
-        }
-    }
-
-    renderTableBody(elementId) {
-        const {rule, direction} = this.state.sorting;
-        const { search } = this.state;
-        let items = this.state.items.slice();
-
-        if (search !== '') {
-            items = items.filter( (ev) => {
-                return ev.name.toLowerCase().indexOf(search.toLowerCase()) > -1
-            })
-        }
-
-        if (rule !== '') {
-            this.sorter.call(items, items, rule, direction);
-            this.sortingMarkersRender(rule, direction);
-        }
-
-        this.render(this.structures.tableBody, items, elementId);
-    }
-
-    goSearch(ev) {
-        if (ev.type === 'click' || (ev.type === 'keydown' && ev.which === 13) ) {
-            this.renderTableBody('#productsTableBody');
-        }
-    }
-
-    onTableClick(ev) {
-        ev.preventDefault();
-         
-        if( $(ev.currentTarget).data('action') ) {
-    
-            const id = $(ev.currentTarget).data('id')
-            const action = $(ev.currentTarget).data('action')
-    
-            if (action === 'delete') {
-                this.deleteItem(id)
-            }
-            if(action === 'edit') {
-                this.updateItem(id)
-            }
-            if (action === 'view') {
-                console.log(id)
-                
-            }
-        }
-    }
-
     start() {
         $('#tableContainer').html(this.structures.tableHead)
         this.renderTableBody('#productsTableBody');
@@ -249,6 +99,203 @@ class Table extends Application {
         $('#searchContainer').on('click', 'button', this.goSearch)
         $('#searchContainer').on('input', 'input', this.onInputSearchField)
         $('#searchContainer').keydown( this.goSearch);
+    }
+
+
+    renderTableBody(elementId) {
+        const {rule, direction} = this.state.sorting;
+        const { search } = this.state;
+        let items = this.state.items.slice();
+
+        if (search !== '') {
+            items = items.filter( (ev) => {
+                return ev.name.toLowerCase().indexOf(search.toLowerCase()) > -1
+            })
+        }
+
+        if (rule !== '') {
+            this.sorter.call(items, items, rule, direction);
+            this.sortingMarkersRender(rule, direction);
+        }
+
+        this.render(this.structures.tableBody, items, elementId);
+    }
+
+    sorter(items, field, bool) {
+
+        const sortingRule = (a,b) => {
+            if (typeof a[field] == 'string' && typeof b[field] == 'string') {
+                return a[field].toLowerCase().localeCompare(b[field].toLowerCase())
+            } else {
+                return a[field] - b[field];
+            }
+        }
+
+        this.sort(sortingRule)
+        
+        if ( !bool ) {
+            this.reverse()
+        }
+    }
+
+    sortingMarkersRender(rule, direction) {
+        if (rule !== '') {
+            const selector = direction ? '.iconSortingDirect': '.iconSortingReverse' ;
+
+            this.visibiliter(false, 0, '.iconSorting');
+            this.visibiliter(true, document.querySelector(`.${rule}`), selector);
+        }
+    }
+
+    onTableClick(ev) {
+        ev.preventDefault();
+         
+        if( $(ev.currentTarget).data('action') ) {
+    
+            const id = $(ev.currentTarget).data('id')
+            const action = $(ev.currentTarget).data('action')
+    
+            if (action === 'delete') {
+                this.onClickDelete(id)
+            }
+            if(action === 'edit') {
+                this.updateItem(id)
+            }
+            if (action === 'view') {
+                this.viewer(id)
+            }
+        }
+    }
+
+    onClickDelete(id) {
+        const index = this.state.items.findIndex( (el) => {
+            return el.id === id;
+        });
+
+        const deleteConfirmation = new DeleteConfirmation(this.currency, this.priceDelimiter, this.state.items[index] )
+            
+        // const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
+            
+        const p = new Promise( deleteConfirmation.promiseYou )
+        p.then( this.deletItem, this.onReject )
+    }
+
+    deletItem(data) {
+        console.log(data)
+        const index = this.state.items.findIndex( (el) => {
+            return el.id === data.id
+        })
+        
+        setTimeout( () => {
+            this.state.items.splice(index, 1);
+            localStorage.setItem('productList', JSON.stringify(this.state.items))
+            this.renderTableBody('#productsTableBody')
+        }, 750)
+    }
+
+    onReject() {
+        console.log('action was rejected')
+    }
+
+    updateItem(id) {
+        let item;
+        if (id) {
+            const index = this.state.items.findIndex( (el) => {
+                return el.id === id;
+            });
+            if (index !== -1) {
+                item = this.state.items[index]
+            }
+        }
+        // console.log(item)
+        const form = new ProductForm(this.currency, this.priceDelimiter, item, this.delivery);
+        const p = new Promise( form.render )
+        p.then( this.updateData, this.onReject )
+    }
+
+    viewer(id) {
+        // console.log(id)
+        const index = this.state.items.findIndex( (el) => {
+            return el.id === id;
+        })
+        // console.log(this.currency, this.priceDelimiter, this.state.items[index])
+        const modal = new ProductInformation(this.currency, this.priceDelimiter, this.state.items[index])
+        // console.log( modal )
+            
+        const p = new Promise( modal.promiseYou )
+        p.then( this.deletItem, this.onReject )
+    }
+
+    updateData(data) {
+        
+        setTimeout( () => {
+            // console.log(data)
+            if (data.id) {
+                const index = this.state.items.findIndex( (el) => {
+                    return el.id === data.id
+                });
+
+                this.state.items.splice(index, 1, data)
+
+            } else {
+                const count = this.state.items.length;
+                // const base = localStorage.getItem('productList');
+                // console.log(count)
+                if (count > 0) {
+                    data.id = this.state.items[count - 1].id + 1;
+                    // console.log(this.state.items)
+                } else {
+                    data.id = 1;
+                }
+                this.state.items.push(data);
+            }
+            localStorage.setItem('productList', JSON.stringify(this.state.items))
+            this.renderTableBody('#productsTableBody')
+        }, 750)
+    }
+
+    onClickSorting(newRule, elementId, target) {
+        super.onClickSorting(newRule, target);
+        this.renderTableBody(elementId);
+    }
+
+    onInputSearchField(ev) {
+        this.state.search = ev.currentTarget.value;
+        console.log(this.state)
+        if (ev.currentTarget.value === '') {
+            this.renderTableBody('#productsTableBody')
+        }
+    }
+
+    goSearch(ev) {
+        if (ev.type === 'click' || (ev.type === 'keydown' && ev.which === 13) ) {
+            this.renderTableBody('#productsTableBody');
+        }
+    }
+
+    priceMaker(num) {
+        return super.priceMaker(num, this.currency, this.priceDelimiter)
+    }
+
+    
+
+    visibiliter(bool, container, ...targets) {
+        // it shows and hides arrows that show the current direction of sorting
+        // choses container, passed argument can be a selector or 0 
+        // if container 0 it looks for the arrow in the whole body
+        // if bool argumets is true it shows if false it hides
+        // targets - the list of passed selectors  
+        const cont = container === 0 ? document.querySelector('body') : container,
+            fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
+
+        targets.forEach( (el) => {
+            cont.querySelectorAll(el).forEach( (elem) => {
+                // here the third argumend used only if the function is setAttribute 
+                // it sets attr hidden as true
+                // if the function is removeAttr it doesn't use this parametr
+                fn.call(elem, 'hidden', 'true');
+            })
+        })
     }
 
 }

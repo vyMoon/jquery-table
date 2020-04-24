@@ -4,12 +4,12 @@
 // if object wasn't passed idt has empty abject
 // this situation can happen when user want to add a new product
 class ProductForm extends Application {
-    constructor(currency, priceDelimiter, action, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}, delivery ) {
+    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}, delivery ) {
         super();
         
         this.currency = currency;
         this.priceDelimiter = priceDelimiter;
-        this.action = action;
+        // this.action = action;
         this.productInformation = productInformation;
         this.delivery = delivery;
         // regular expressions for checking data
@@ -350,7 +350,7 @@ class ProductForm extends Application {
             this.invalidFieldDetected('#price');
         } else {
             this.productInformation.delivery = this.deliveryCreator();
-
+            // console.log(this.productInformation)
             return this.productInformation
         }
     }
@@ -382,7 +382,7 @@ class ProductForm extends Application {
     render(resolve, reject) {
         // renders countries as options of the select element of the form
         // and renders cities as checkboxes
-
+        
         const message = this.productInformation.name ? `Edit ${this.productInformation.name} item` : `Add new Item` ;
         const countries = Object.keys(this.delivery);
 
@@ -391,7 +391,7 @@ class ProductForm extends Application {
         super.render(this.structures.select, countries, '#countriesSelector');
         // adds events
         this.on();
-
+        // console.log(this)
         $('#formCancel').on('click', onReject.bind(this) );
         $('#formSubmit').on('click', onSolve.bind(this) );
 
