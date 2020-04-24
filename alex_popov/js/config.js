@@ -116,5 +116,18 @@ const delivery = {
         'Helsinki',
         'Kouvola',
         'Oulu'
-    ]
+    ],
+    'Mexico': [],
+    'Ghana': [],
+    'Turkey': [],
+    'Georgia': [],
+    'Brazil': [],
+    'Canada': [],
+    'Spain': [],
+    'Gemany': [],
+    'Franse': [],
+    'Ireland': [],
+    'Wales': ['Narberth', 'Neath', 'Nefyn', 'Newbridge', 'Newcastle', 'Emlyn', 'Newport', 'Newtown', 'Neyland' ],
+    'Scotland': [],
+
 }

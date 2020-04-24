@@ -36,11 +36,10 @@ class ProductForm extends Application {
         // used for randering information about delivery for selectiong cities and countries
         this.structures = {
             form: `<% list.forEach( (el) => { %>
-                    <div id="an-container" class="screenFixed d-flex flex-column justify-content-around align-items-center">
-                        <div class="modalAddition bg-light d-flex flex-column rounded-lg px-2 py-2 w-50" >
-                            <h4 id="prodictDetails"><%=el.message%></h4>
+                    <div id="an-container" class=" screenFixed d-flex flex-column justify-content-around align-items-center">
+                        <div class="modalAddition bg-light d-flex flex-column rounded-lg px-4 py-2 w-50" >
+                            <h4 id="prodictDetails">Product Name</h4>
                             <form class="border-top" id="addNewForm">
-
                                 <div class="form-group ">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control form-control-sm" id="name" aria-describedby="emailHelp">
@@ -61,26 +60,26 @@ class ProductForm extends Application {
                                     <input type="text" class="form-control form-control-sm" id="price" aria-describedby="emailHelp">
                                     <small id="emailHelp" class="form-text text-muted">positive number only</small>
                                 </div>
-
+                
                                 <div>
-                                    <div>
-                                        <label class="" for="countriesSelector">Delivery:</label>
+                                    <label class="" for="countriesSelector">Delivery:</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-control form-control-sm" id="countriesSelector"></select>
                                     </div>
-                                    <div class="d-flex flex-row row">
-                                        <div class="my-1 mr-1 col">
-                                            <select class="form-control form-control-sm" id="countriesSelector"></select>
-                                        </div>
-                                        <div class="form-cities col my-1 overflow-auto pl-4">
-                                            <div class="custom-checkbox d-flex flex-column">
-                                                <div class="border-bottom">
-                                                    <input disabled type="checkbox" class="custom-control-input" id="selectAll">
-                                                    <label class="custom-control-label" for="selectAll">Slect all</label>
-                                                </div>
+                
+                                    <div class="pl-5 col form-cities col my-1 overflow-auto pl-4">
+                                        <div class="custom-checkbox d-flex flex-column">
+                                            <div class="border-bottom">
+                                                <input disabled type="checkbox" class="custom-control-input" id="selectAll">
+                                                <label class="custom-control-label" for="selectAll">Slect all</label>
                                             </div>
-                                            <div class="custom-checkbox" id="deliveryCities"></div>
+                                            <div id="deliveryCities"></div>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="d-flex justify-content-around">
                                     <button type="submit" class="btn btn-primary" id="formSubmit">Edit</button>
                                     <button type="submit" class="btn btn-primary" id="formCancel">Cancel</button>

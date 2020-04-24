@@ -1,12 +1,12 @@
 class DeleteConfirmation extends Application{
     constructor(index, name) {
-        super()
+        super();
+
         this.index = index;
         this.name = name;
+        this.darker = new Darker();
 
-        this.darker = new Darker()
-
-        this.render = this.render.bind(this)
+        this.render = this.render.bind(this);
 
         this.structure = `<% list.forEach( ( el ) => { %>
             <% console.log(el) %>
@@ -21,37 +21,33 @@ class DeleteConfirmation extends Application{
                     </div>
                 </div>
             </div>
-        <% }) %>`
+        <% }) %>`;
     }
 
     render(resolve, reject) {
         
-        this.darker.render()
-        super.render(this.structure, [ {name: this.name} ] , '#confirmationContainer')
+        this.darker.render();
+        super.render(this.structure, [ {name: this.name} ] , '#confirmationContainer');
 
-        $('#rejectDel').on('click', onReject.bind(this) )
-        $('#solveDel').on('click', onResolve.bind(this) )
+        $('#rejectDel').on('click', onReject.bind(this) );
+        $('#solveDel').on('click', onResolve.bind(this) );
 
         function onResolve() {
-            
-             this.darker.off()
-             this.off()
-            //  $('#confirmationContainer').html('')
+            this.darker.off();
+            this.off();
 
-             resolve(this.index)
+            resolve(this.index);
         }
     
         function onReject() {
+            this.darker.off();
+            this.off();
 
-            this.darker.off()
-            this.off()
-            // $('#confirmationContainer').html('')
-
-            reject()
+            reject();
         }
     }
 
     off() {
-        $('#confirmationContainer').html('')
+        $('#confirmationContainer').html('');
     }
 }

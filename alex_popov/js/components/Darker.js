@@ -9,10 +9,10 @@ class Darker {
     }
 
     render() {
-        $( this.structure.tag, this.structure.attr ).insertAfter( '#productsTable' )
+        $( this.structure.tag, this.structure.attr ).insertAfter( '#productsTable' );
     }
 
     off() {
-        $('.darker').remove()
+        $('.darker').remove();
     }
 }

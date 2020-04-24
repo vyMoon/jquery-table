@@ -19,18 +19,19 @@ class Application {
         const pieces = Number(num).toFixed(2).split('.')
     
         if (pieces[0].length > 3) {
-            pieces[0] = pieces[0].split('')
+            pieces[0] = pieces[0].split('');
       
             for(let i = -3; (i * (-1) ) < pieces[0].length; i -=  4 ) {
                 pieces[0].splice(i, 0, delimiter);
             }
-            pieces[0] = pieces[0].join('')
+            
+            pieces[0] = pieces[0].join('');
         }
         return `${currency} ${pieces[0]}.${pieces[1]}`;
     }
 
     render(construction, items, elementId) {
-        $( elementId ).html('')
+        $( elementId ).html('');
         let tmpl = _.template( construction );    
         $( elementId ).html( tmpl( {list: items} ) );
 
@@ -50,7 +51,7 @@ class Application {
                 // here the third argumend used only if the function is setAttribute 
                 // it sets attr hidden as true
                 // if the function is removeAttr it doesn't use this parametr
-                fn.call(elem, 'hidden', 'true')
+                fn.call(elem, 'hidden', 'true');
             })
         })
     }
