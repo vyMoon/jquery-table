@@ -38,9 +38,11 @@ class ProductInformation extends PromiseModal{
                     </div>
                     
                 <% }) %>`,
+
             countries: `<% list.forEach( (el) => { %>
                     <a data-country="<%=el%>" href="#" class="list-group-item list-group-item-action"><%=el%></a>
                 <% }) %>`,
+
             cities: ` <% list.forEach( (el) => {  %>
                     <div><p>choose a country</p> </div>
                     <% for( let country in el) { %>
@@ -49,8 +51,8 @@ class ProductInformation extends PromiseModal{
                                 <p class="px-2"><%=city%></p>
                             <% }) %>
                         </div>
-                <% } %>
-            <% }) %>`
+                    <% } %>
+                <% }) %>`
         }
     }
 

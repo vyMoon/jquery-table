@@ -117,7 +117,6 @@ class Table extends Application {
             this.sorter.call(items, items, rule, direction);
             this.sortingMarkersRender(rule, direction);
         }
-
         this.render(this.structures.tableBody, items, elementId);
     }
 
@@ -181,7 +180,7 @@ class Table extends Application {
     }
 
     deletItem(data) {
-        console.log(data)
+        // console.log(data)
         const index = this.state.items.findIndex( (el) => {
             return el.id === data.id
         })
@@ -204,12 +203,13 @@ class Table extends Application {
                 return el.id === id;
             });
             if (index !== -1) {
-                item = this.state.items[index]
+                item = Object.assign({}, this.state.items[index]);
             }
         }
         // console.log(item)
         const form = new ProductForm(this.currency, this.priceDelimiter, item, this.delivery);
-        const p = new Promise( form.render )
+        console.log(form)
+        const p = new Promise( form.promiseYou )
         p.then( this.updateData, this.onReject )
     }
 

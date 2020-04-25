@@ -26,9 +26,7 @@ class DeleteConfirmation extends PromiseModal{
     render() {
         
         this.darker.render();
-        
         super.render(this.structure, [ this.productInformation ] , '#modalcontainer');
-        // console.log(this.productInformation, this)
     }
 
     check() {
