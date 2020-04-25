@@ -1,5 +1,7 @@
 'use strict';
 
+// parent class components in the application for aplication 
+
 class Application {
 
     onClickSorting(newRule, target) {

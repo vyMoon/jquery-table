@@ -36,16 +36,23 @@ class PromiseModal extends Application{
         }
     }
 
-
+    // this function will be passed as a function to a promise
+    // when a priomis is create it  renders the elemnts 
+    // add event
+    // buttons should have reject and resolve class properly
+    // if user pres the resopve button itsheck the conditions
+    // (each class should have the check method)
+    // if everuthing is ok check class change this.answer.ready into true
+    // and put data to this.anser.body
+    // if it happend promise will be resolved
+    // reject button unmounts the component and rejects the promise
     promiseYou(resolve, reject) {
-        // console.log(1)
         this.render()
         
         $('#reject').on('click', onReject.bind(this) );
         $('#resolve').on('click', onResolve.bind(this) );
 
         function onResolve() {
-            console.log('resss')
             this.check()
             if (this.answer.ready) {
                 this.off();
@@ -55,7 +62,6 @@ class PromiseModal extends Application{
         }
     
         function onReject() {
-            console.log('rejjjjj')
             this.off();
             reject();
         }

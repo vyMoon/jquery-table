@@ -1,17 +1,14 @@
 class Table extends Application {
-    constructor(key, fileId, currency, priceDelimiter, delivery) {
+    constructor(currency, priceDelimiter, delivery) {
         super();
-        this.fileId = fileId;
-        this.key = key;
-        this.delivery = delivery;
-
+        this.delivery = delivery;                                             // the full information about the avialable citias for delivery
         this.currency = currency;
         this.priceDelimiter = priceDelimiter;
 
         this.state = {
-            items: JSON.parse( localStorage.getItem('productList') ),
-            search: '',
-            sorting: {
+            items: JSON.parse( localStorage.getItem('productList') ),         // the list of the products
+            search: '',                                                       // here stores the string for searcing products
+            sorting: {                                                         // and information about sorting
                 rule: '',
                 direction: true
             }
@@ -23,7 +20,7 @@ class Table extends Application {
         this.goSearch = this.goSearch.bind(this);
         this.onTableClick = this.onTableClick.bind(this);
         this.viewer = this.viewer.bind(this)
-
+        // structures for rendering elements
         this.structures = {
 
             tableHead: `
@@ -75,33 +72,32 @@ class Table extends Application {
         }
 
     }
-
+    // renders the elements of the table and adds events
     start() {
-        $('#tableContainer').html(this.structures.tableHead)
+        $('#tableContainer').html(this.structures.tableHead);
         this.renderTableBody('#productsTableBody');
 
-
         $('#productsTableHead').click( (ev) => {
-            ev.preventDefault()
+            ev.preventDefault();
             
             if (ev.target.dataset.sorting) {
-                this.onClickSorting(ev.target.dataset.sorting, '#productsTableBody', ev.target.parentElement)
+                this.onClickSorting(ev.target.dataset.sorting, '#productsTableBody', ev.target.parentElement);
             }
         });
 
         $('#addNewProduct').click( (ev) => {
-            ev.preventDefault()
-            this.updateItem()
+            ev.preventDefault();
+            this.updateItem();
         });
         
         $('#productsTableBody').on('click', 'a', this.onTableClick);
         $('#productsTableBody').on('click', 'button', this.onTableClick);
-        $('#searchContainer').on('click', 'button', this.goSearch)
-        $('#searchContainer').on('input', 'input', this.onInputSearchField)
+        $('#searchContainer').on('click', 'button', this.goSearch);
+        $('#searchContainer').on('input', 'input', this.onInputSearchField);
         $('#searchContainer').keydown( this.goSearch);
     }
 
-
+    // sort the data, filter thelist if we want to find somthing
     renderTableBody(elementId) {
         const {rule, direction} = this.state.sorting;
         const { search } = this.state;
@@ -110,92 +106,91 @@ class Table extends Application {
         if (search !== '') {
             items = items.filter( (ev) => {
                 return ev.name.toLowerCase().indexOf(search.toLowerCase()) > -1
-            })
+            });
         }
 
         if (rule !== '') {
-            this.sorter.call(items, items, rule, direction);
+            this.sorter.call(items, rule, direction);
             this.sortingMarkersRender(rule, direction);
         }
         this.render(this.structures.tableBody, items, elementId);
     }
-
-    sorter(items, field, bool) {
+    // the function that sorts the datat
+    // it cn be used either for strings or numbers
+    sorter(field, bool) {
 
         const sortingRule = (a,b) => {
             if (typeof a[field] == 'string' && typeof b[field] == 'string') {
-                return a[field].toLowerCase().localeCompare(b[field].toLowerCase())
+                return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
             } else {
                 return a[field] - b[field];
             }
         }
 
-        this.sort(sortingRule)
+        this.sort(sortingRule);
         
         if ( !bool ) {
-            this.reverse()
+            this.reverse();
         }
     }
-
+    // shows and hides the markers of direction of products if we sort the data by name or price
     sortingMarkersRender(rule, direction) {
         if (rule !== '') {
-            const selector = direction ? '.iconSortingDirect': '.iconSortingReverse' ;
+            const selector = direction ? '.iconSortingDirect': '.iconSortingReverse';
 
             this.visibiliter(false, 0, '.iconSorting');
             this.visibiliter(true, document.querySelector(`.${rule}`), selector);
         }
     }
-
+    // manages the click on the table body
+    // it wathes the data-ection of the elements that got the event
     onTableClick(ev) {
         ev.preventDefault();
          
         if( $(ev.currentTarget).data('action') ) {
     
-            const id = $(ev.currentTarget).data('id')
-            const action = $(ev.currentTarget).data('action')
+            const id = $(ev.currentTarget).data('id');
+            const action = $(ev.currentTarget).data('action');
     
             if (action === 'delete') {
-                this.onClickDelete(id)
+                this.onClickDelete(id);
             }
             if(action === 'edit') {
-                this.updateItem(id)
+                this.updateItem(id);
             }
             if (action === 'view') {
-                this.viewer(id)
+                this.viewer(id);
             }
         }
     }
-
+    // runs the deleting proces
     onClickDelete(id) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === id;
         });
 
-        const deleteConfirmation = new DeleteConfirmation(this.currency, this.priceDelimiter, this.state.items[index] )
+        const deleteConfirmation = new DeleteConfirmation(this.currency, this.priceDelimiter, this.state.items[index] );
             
-        // const deleteConfirmation = new DeleteConfirmation(index, this.state.items[index].name )
-            
-        const p = new Promise( deleteConfirmation.promiseYou )
-        p.then( this.deletItem, this.onReject )
+        const p = new Promise( deleteConfirmation.promiseYou );
+        p.then( this.deletItem, this.onReject );
     }
-
+    //recives the datat from promis and delete the element
     deletItem(data) {
-        // console.log(data)
         const index = this.state.items.findIndex( (el) => {
-            return el.id === data.id
+            return el.id === data.id;
         })
         
         setTimeout( () => {
             this.state.items.splice(index, 1);
-            localStorage.setItem('productList', JSON.stringify(this.state.items))
-            this.renderTableBody('#productsTableBody')
+            localStorage.setItem('productList', JSON.stringify(this.state.items));
+            this.renderTableBody('#productsTableBody');
         }, 750)
     }
-
+    // tells us about rejects of promis.
     onReject() {
-        console.log('action was rejected')
+        console.log('action was rejected');
     }
-
+    // runs the process of editing a position or creating new position
     updateItem(id) {
         let item;
         if (id) {
@@ -206,78 +201,70 @@ class Table extends Application {
                 item = Object.assign({}, this.state.items[index]);
             }
         }
-        // console.log(item)
+        
         const form = new ProductForm(this.currency, this.priceDelimiter, item, this.delivery);
-        console.log(form)
-        const p = new Promise( form.promiseYou )
-        p.then( this.updateData, this.onReject )
+        const p = new Promise( form.promiseYou );
+        p.then( this.updateData, this.onReject );
     }
-
+    // shows the information about the product
     viewer(id) {
-        // console.log(id)
         const index = this.state.items.findIndex( (el) => {
             return el.id === id;
         })
-        // console.log(this.currency, this.priceDelimiter, this.state.items[index])
-        const modal = new ProductInformation(this.currency, this.priceDelimiter, this.state.items[index])
-        // console.log( modal )
-            
-        const p = new Promise( modal.promiseYou )
-        p.then( this.deletItem, this.onReject )
-    }
 
+        const modal = new ProductInformation(this.currency, this.priceDelimiter, this.state.items[index]);
+            
+        const p = new Promise( modal.promiseYou );
+        p.then( this.deletItem, this.onReject );
+    }
+    // updade data. it is used either for creating new position or editing a postion in the list
     updateData(data) {
         
         setTimeout( () => {
-            // console.log(data)
             if (data.id) {
                 const index = this.state.items.findIndex( (el) => {
-                    return el.id === data.id
+                    return el.id === data.id;
                 });
 
-                this.state.items.splice(index, 1, data)
+                this.state.items.splice(index, 1, data);
 
             } else {
                 const count = this.state.items.length;
-                // const base = localStorage.getItem('productList');
-                // console.log(count)
+
                 if (count > 0) {
                     data.id = this.state.items[count - 1].id + 1;
-                    // console.log(this.state.items)
                 } else {
                     data.id = 1;
                 }
                 this.state.items.push(data);
             }
-            localStorage.setItem('productList', JSON.stringify(this.state.items))
-            this.renderTableBody('#productsTableBody')
+            localStorage.setItem('productList', JSON.stringify(this.state.items));
+            this.renderTableBody('#productsTableBody');
         }, 750)
     }
-
+    // udates the information about sorting in the state
+    // and runs rerendering the body of the table
     onClickSorting(newRule, elementId, target) {
         super.onClickSorting(newRule, target);
         this.renderTableBody(elementId);
     }
-
+    // rerender the full list of the products if value of the searching field is an empty string
     onInputSearchField(ev) {
         this.state.search = ev.currentTarget.value;
-        console.log(this.state)
         if (ev.currentTarget.value === '') {
-            this.renderTableBody('#productsTableBody')
+            this.renderTableBody('#productsTableBody');
         }
     }
-
+    //  uns the update the body of the table if this.state.search is not empty
     goSearch(ev) {
         if (ev.type === 'click' || (ev.type === 'keydown' && ev.which === 13) ) {
             this.renderTableBody('#productsTableBody');
         }
     }
-
+    // gets a number like 9000 and returns string like  $ 9,000.00 for rendering
     priceMaker(num) {
-        return super.priceMaker(num, this.currency, this.priceDelimiter)
+        return super.priceMaker(num, this.currency, this.priceDelimiter);
     }
-
-    
 
     visibiliter(bool, container, ...targets) {
         // it shows and hides arrows that show the current direction of sorting

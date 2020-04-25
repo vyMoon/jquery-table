@@ -8,36 +8,17 @@ const config = {
 const products = [
     {
         id: 1,
-        name: 'Milk',
+        name: 'Cold Milk',
         email: 'mail@mail.ru',
         count: 56,
         price: 70.5,
         delivery: {
-            'Russia': [
-                'Moscow'
-            ],
-            'Belorus': [
-                'Minsk'
-            ],
-            'US': [
-                'washington'
-            ],
-            'Japan': [
-                'Tokyo',
-                'Osaka',
-                'Himeji'
-            ],
-            'China': [
-                'Honkong'
-            ],
-            'Norway': [
-                'Oslo',
-                'Otta'
-            ],
-            'Finland': [
-                'Oulu'
-            ]
-        }
+            'Russia': ['Moscow','Novosibirsk','Ekaterinburg' ,'Samara','Omsk','Kazan','Chelyabinsk'],
+            'US': ['washington','Sietl','Buclin',  'Phoenix', 'Philadelphia'],
+            'Japan': ['Tokyo','Osaka','Himeji', 'Hiroshima', 'Nagoya', 'Toyohashi', 'Okazaki', 'Ichinomiya', 'Seto', 'Handa','Kasugai'],
+            'Sweden': ['Stocholm',  'Halmstad', 'Helsingborg', 'Härnösand', 'Karlshamn'],
+            'Wales': ['Narberth', 'Neath', 'Emlyn', 'Newport', 'Newtown', 'Neyland' ],
+        }	
     }, {
         id: 2,
         name: 'Chocklate',
@@ -51,7 +32,14 @@ const products = [
         email: 'mail2@mail.ru',
         count: 57,
         price: 1500.57,
-        delivery: false
+        delivery: {
+            
+            'Belorus': ['Minsk','Narva', 'Mogilev', 'Vitebsk', 'Baranovichi', 'Borisov', 'Babruysk' ,'Brest'],
+            'US': ['washington','Sietl','Buclin', 'Dallas', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia'],
+            'Japan': [ 'Nagoya', 'Toyohashi', 'Okazaki', 'Ichinomiya', 'Seto', 'Handa','Kasugai'],
+            'Norway': ['Otta', 'Horten', 'Grimstad','Florø' ],
+            'Wales': ['Narberth',  'Emlyn', 'Newport', 'Newtown', 'Neyland' ],
+        }	
     }, {
         id: 4,
         name: 'Intel Pentium 4',
@@ -65,7 +53,13 @@ const products = [
         email: 'mail1@mail.ru',
         count: 350,
         price: 5140.2,
-        delivery: false
+        delivery: {
+            'Russia': ['Moscow','Voronezh','Orel', 'Ekaterinburg' ,'Samara','Omsk','Kazan','Chelyabinsk'],
+            'Belorus': ['Minsk','Narva','Ghomel',  'Baranovichi', 'Pinsk','Borisov', 'Babruysk' ,'Brest'],
+            'Norway': ['Oslo',  'Otta',  'Farsund', 'Gjøvik',  'Hamar', 'Horten', 'Grimstad','Florø' ],
+            'Finland': ['Helsinki',  'Alajärvi', 'Espoo', 'Heinola', 'Imatra', 'Iisalmi', 'Hyvinkää', 'Huittinen'],
+            'Wales': ['Narberth', 'Neath', 'Nefyn',  'Newtown', 'Neyland' ],
+        }	
     }, {
         id: 6,
         name: 'Toy Train',

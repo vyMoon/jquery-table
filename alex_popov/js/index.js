@@ -1,5 +1,6 @@
-const {key, fileId, currency, priceDelimiter} = config;
-
+// getting the start data
+const {currency, priceDelimiter} = config;
+// technical information about data
 if ( ! localStorage.getItem('productList') ) {
     console.log('The start data is loaded to the localstorage, then you will get the data from the local storage. If you change the data, it will be changed in the local storage too');
     localStorage.setItem('productList', JSON.stringify( products ) );
@@ -9,13 +10,8 @@ if ( ! localStorage.getItem('productList') ) {
     console.log('you have got the data from the localstorage');
 }
 
-const table = new Table(
-    key, 
-    fileId, 
-    currency, 
-    priceDelimiter,
-    delivery
-);
+// running the application
+const table = new Table( currency, priceDelimiter, delivery );
 
 $( () => {
     table.start();

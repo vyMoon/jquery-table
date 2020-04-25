@@ -1,10 +1,11 @@
+// component that render the window with information about a product
+
 class ProductInformation extends PromiseModal{
-    constructor(currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}}) {
-        super(currency, priceDelimiter, productInformation);
-        this.darker = new Darker()
+    constructor( currency, priceDelimiter, productInformation = {'name': '', 'email': '', 'count': 0, 'price': 0, 'delivery': {}} ) {
+        super( currency, priceDelimiter, productInformation );
+        this.darker = new Darker();
 
-        this.render = this.render.bind(this)
-
+        // this.render = this.render.bind( this );
 
         this.structure = {
             main: `<% list.forEach( ( el ) => { %>
@@ -57,33 +58,32 @@ class ProductInformation extends PromiseModal{
     }
 
     render() {
-        this.darker.render()
-        const countries = Object.keys(this.productInformation.delivery)
-        super.render(this.structure.main, [this.productInformation ], '#modalcontainer')
+        this.darker.render();
+        const countries = Object.keys(this.productInformation.delivery);
+        super.render(this.structure.main, [ this.productInformation ], '#modalcontainer');
 
         if (countries.length > 0) {
-            super.render(this.structure.countries, countries,"#countries")
-            super.render(this.structure.cities, [this.productInformation.delivery], '#cities')
+            super.render(this.structure.countries, countries,"#countries");
+            super.render(this.structure.cities, [this.productInformation.delivery], '#cities');
         } else {
-            $('.delivery').text('Delivery is not available')
+            $('.delivery').text('Delivery is not available');
         }
-
-        $('#countries').on( 'click', 'a' , this.selector )
+        $('#countries').on( 'click', 'a' , this.selector );
     }
 
+    //  callback that render avialable cities fro delivery
     selector(ev) {
         const country = $(ev.currentTarget).data('country');
-        $('#countries').find('a').removeClass('active')
-        $(ev.currentTarget).addClass('active')
+        $('#countries').find('a').removeClass('active');
+        $(ev.currentTarget).addClass('active');
         $('#cities').find('div').addClass('displayNone');
-        $('#cities').find(`div[data-country="${country}"]`).removeClass('displayNone')
-
+        $('#cities').find(`div[data-country="${country}"]`).removeClass('displayNone');
     }
 
     off() {
-        $('#countries').off( 'click', 'a' , this.selector )
+        $('#countries').off( 'click', 'a' , this.selector );
         this.darker.off();
-        $('#modalcontainer').html('')
+        $('#modalcontainer').html('');
     }
 
 }
