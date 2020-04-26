@@ -5,7 +5,6 @@ class ProductInformation extends PromiseModal{
         super( currency, priceDelimiter, productInformation );
         this.darker = new Darker();
 
-        // this.render = this.render.bind( this );
 
         this.structure = {
             main: `<% list.forEach( ( el ) => { %>

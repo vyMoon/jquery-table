@@ -6,8 +6,6 @@ class DeleteConfirmation extends PromiseModal{
 
         this.darker = new Darker();
 
-        // this.render = this.render.bind(this);
-
         this.structure = `<% list.forEach( ( el ) => { %>
         <div class="MC-container screenFixed d-flex flex-column justify-content-around align-items-center">
                 <div class="modalConfirmation d-flex flex-column rounded text-white w-50">
@@ -22,15 +20,16 @@ class DeleteConfirmation extends PromiseModal{
             </div>
         <% }) %>`;
     }
-    
+
     render() {
         this.darker.render();
         super.render(this.structure, [ this.productInformation ] , '#modalcontainer');
     }
 
+
     check() {
         this.answer.ready = true;
-        // this.answer.body = this.productInformation
+        this.answer.body = this.productInformation
     }
 
 

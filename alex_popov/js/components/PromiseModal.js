@@ -29,6 +29,7 @@ class PromiseModal extends Application{
         this.productInformation = productInformation;
 
         this.promiseYou = this.promiseYou.bind(this)
+        this.go = this.go.bind(this)
 
         this.answer = {
             ready: false,
@@ -46,7 +47,13 @@ class PromiseModal extends Application{
     // and put data to this.anser.body
     // if it happend promise will be resolved
     // reject button unmounts the component and rejects the promise
-    promiseYou(resolve, reject) {
+
+    async promiseYou() {
+        return await new Promise(this.go)
+    }
+
+
+    go(resolve, reject) {
         this.render()
         
         $('#reject').on('click', onReject.bind(this) );
@@ -67,4 +74,5 @@ class PromiseModal extends Application{
         }
 
     }
+
 }

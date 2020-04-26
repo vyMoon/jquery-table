@@ -20,6 +20,8 @@ class Table extends Application {
         this.goSearch = this.goSearch.bind(this);
         this.onTableClick = this.onTableClick.bind(this);
         this.viewer = this.viewer.bind(this)
+
+
         // structures for rendering elements
         this.structures = {
 
@@ -72,6 +74,8 @@ class Table extends Application {
         }
 
     }
+
+
     // renders the elements of the table and adds events
     start() {
         $('#tableContainer').html(this.structures.tableHead);
@@ -97,6 +101,7 @@ class Table extends Application {
         $('#searchContainer').keydown( this.goSearch);
     }
 
+
     // sort the data, filter thelist if we want to find somthing
     renderTableBody(elementId) {
         const {rule, direction} = this.state.sorting;
@@ -115,6 +120,8 @@ class Table extends Application {
         }
         this.render(this.structures.tableBody, items, elementId);
     }
+
+
     // the function that sorts the datat
     // it cn be used either for strings or numbers
     sorter(field, bool) {
@@ -133,6 +140,8 @@ class Table extends Application {
             this.reverse();
         }
     }
+
+
     // shows and hides the markers of direction of products if we sort the data by name or price
     sortingMarkersRender(rule, direction) {
         if (rule !== '') {
@@ -142,6 +151,8 @@ class Table extends Application {
             this.visibiliter(true, document.querySelector(`.${rule}`), selector);
         }
     }
+
+
     // manages the click on the table body
     // it wathes the data-ection of the elements that got the event
     onTableClick(ev) {
@@ -163,22 +174,26 @@ class Table extends Application {
             }
         }
     }
+
+
     // runs the deleting proces
     onClickDelete(id) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === id;
         });
 
-        const deleteConfirmation = new DeleteConfirmation(this.currency, this.priceDelimiter, this.state.items[index] );
-            
-        const p = new Promise( deleteConfirmation.promiseYou );
-        p.then( this.deletItem, this.onReject );
+        const modal = new DeleteConfirmation(this.currency, this.priceDelimiter, this.state.items[index] );
+        modal.promiseYou().then( this.deletItem, this.onReject );
     }
+
+
     //recives the datat from promis and delete the element
     deletItem(data) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === data.id;
         })
+
+        console.log(index)
         
         setTimeout( () => {
             this.state.items.splice(index, 1);
@@ -186,10 +201,14 @@ class Table extends Application {
             this.renderTableBody('#productsTableBody');
         }, 750)
     }
+
+
     // tells us about rejects of promis.
     onReject() {
         console.log('action was rejected');
     }
+
+
     // runs the process of editing a position or creating new position
     updateItem(id) {
         let item;
@@ -201,11 +220,12 @@ class Table extends Application {
                 item = Object.assign({}, this.state.items[index]);
             }
         }
-        
+
         const form = new ProductForm(this.currency, this.priceDelimiter, item, this.delivery);
-        const p = new Promise( form.promiseYou );
-        p.then( this.updateData, this.onReject );
+        form.promiseYou().then( this.updateData, this.onReject );
     }
+
+
     // shows the information about the product
     viewer(id) {
         const index = this.state.items.findIndex( (el) => {
@@ -213,10 +233,10 @@ class Table extends Application {
         })
 
         const modal = new ProductInformation(this.currency, this.priceDelimiter, this.state.items[index]);
-            
-        const p = new Promise( modal.promiseYou );
-        p.then( this.deletItem, this.onReject );
+        modal.promiseYou().then(()=>{}, this.onReject)
     }
+
+
     // updade data. it is used either for creating new position or editing a postion in the list
     updateData(data) {
         
@@ -242,12 +262,16 @@ class Table extends Application {
             this.renderTableBody('#productsTableBody');
         }, 750)
     }
+
+
     // udates the information about sorting in the state
     // and runs rerendering the body of the table
     onClickSorting(newRule, elementId, target) {
         super.onClickSorting(newRule, target);
         this.renderTableBody(elementId);
     }
+
+
     // rerender the full list of the products if value of the searching field is an empty string
     onInputSearchField(ev) {
         this.state.search = ev.currentTarget.value;
@@ -255,23 +279,29 @@ class Table extends Application {
             this.renderTableBody('#productsTableBody');
         }
     }
+
+
     //  uns the update the body of the table if this.state.search is not empty
     goSearch(ev) {
         if (ev.type === 'click' || (ev.type === 'keydown' && ev.which === 13) ) {
             this.renderTableBody('#productsTableBody');
         }
     }
+
+
     // gets a number like 9000 and returns string like  $ 9,000.00 for rendering
     priceMaker(num) {
         return super.priceMaker(num, this.currency, this.priceDelimiter);
     }
 
+
+    // it shows and hides arrows that show the current direction of sorting
+    // choses container, passed argument can be a selector or 0 
+    // if container 0 it looks for the arrow in the whole body
+    // if bool argumets is true it shows if false it hides
+    // targets - the list of passed selectors  
     visibiliter(bool, container, ...targets) {
-        // it shows and hides arrows that show the current direction of sorting
-        // choses container, passed argument can be a selector or 0 
-        // if container 0 it looks for the arrow in the whole body
-        // if bool argumets is true it shows if false it hides
-        // targets - the list of passed selectors  
+        
         const cont = container === 0 ? document.querySelector('body') : container,
             fn = bool ? document.body.removeAttribute : document.body.setAttribute ;
 

@@ -14,7 +14,7 @@ class ProductForm extends PromiseModal {
         // this.delivery = delivery;
         // regular expressions for checking data
         this.validation = {
-            'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
+            // 'name': /^[\w]{1,}@[a-z]{1,}.[a-z]{2,}$/,
             'email': /^[\w-_]{1,}[@]{1}[a-z-_]{1,}[.]{1}[a-z]{2,}$/,
             'number': /^\d{1,}$/,
             'price': /^[0-9]*[.]?[0-9]{0,2}$/
@@ -107,7 +107,7 @@ class ProductForm extends PromiseModal {
     }
 
 
-    render(resolve, reject) {
+    render() {
         // renders countries as options of the select element of the form
         // and renders cities as checkboxes
         const message = this.productInformation.name ? `Edit ${this.productInformation.name} item` : `Add new Item` ;
@@ -119,6 +119,7 @@ class ProductForm extends PromiseModal {
         // adds events
         this.on();
     }
+
 
     on() {
         // adds events and displays form and darker
@@ -141,6 +142,7 @@ class ProductForm extends PromiseModal {
         $('#price').on('focusout', this.onChangePrice);
         $('#price').on('click', this.onClickPrice);
     }
+
 
     formFiller() {
         // the form filler function
@@ -169,7 +171,8 @@ class ProductForm extends PromiseModal {
         }
     }
 
-    off(ev) {
+
+    off() {
         //removes events and hide the form and darker
         this.darker.off();
 
@@ -185,7 +188,8 @@ class ProductForm extends PromiseModal {
         $('#modalcontainer').html('');
     }
 
-    check(ev) {
+
+    check() {
         // check the whol form. if a value is not correct this input get focus
         // cif everylthing is ok compound  delivery informatin and saves the product
         // ev.preventDefault();
@@ -205,6 +209,7 @@ class ProductForm extends PromiseModal {
         }
     }
 
+
     deliveryCreator() {
         // compounnd information about cities that are avialible for delivery
         // looks for checked checboxes and makes the object
@@ -220,12 +225,14 @@ class ProductForm extends PromiseModal {
         return delivery;
     }
 
+
     invalidFieldDetected(id) {
         // if there are incorrect values in the form 
         // if gives the focus to the input and error class
         $( id ).focus();
         $( id ).addClass('is-invalid');
     }  
+
 
     onInputName() {
         // checks the name value of the prosuct if the number of caharacters in the name value
@@ -241,6 +248,7 @@ class ProductForm extends PromiseModal {
         this.formHighliter(this.productInformation.name.length > 4, $('#name') );
     }
 
+
     onInputEmail() {
         // saves email value into store and give the input error class
         // I suppesed that  this is only one value that can be incorrect in the sotre
@@ -250,6 +258,7 @@ class ProductForm extends PromiseModal {
 
         this.formHighliter(isEmailValid, $('#email'));
     }
+
 
     onInputNumber(ev) {
         // keeps price and count values in the state as numbers
@@ -304,6 +313,7 @@ class ProductForm extends PromiseModal {
         }
     }
 
+
     onChangePrice(ev) {
         // shows price as number if the element loose focus
         // $ 10,000.00 insted of 10000
@@ -313,6 +323,7 @@ class ProductForm extends PromiseModal {
         }
     }
 
+
     onClickPrice(ev) {
         // shows price as number if the element was clicked
         // 10000 insted of $ 10,000.00
@@ -320,6 +331,7 @@ class ProductForm extends PromiseModal {
             ev.target.value = this.productInformation.price;
         }
     }
+
 
     formHighliter(bool, el) {
         // gives error class for an imput if it was checed as correct or incorrect
@@ -331,6 +343,7 @@ class ProductForm extends PromiseModal {
             el.removeClass('is-valid');
         }
     }
+
 
     onSelectCountry() {
         // dispay the container that contains the cities of selected country
@@ -364,6 +377,7 @@ class ProductForm extends PromiseModal {
             $('.countryCities').addClass('displayNone');
         }
     }
+    
 
     onClickAll() {
         // makes all the checkbox of cities checed or unchecked in the container with chosen country
