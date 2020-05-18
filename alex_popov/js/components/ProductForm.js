@@ -213,6 +213,12 @@ class ProductForm extends PromiseModal {
     deliveryCreator() {
         // compounnd information about cities that are avialible for delivery
         // looks for checked checboxes and makes the object
+        // each input has id country-city
+        // it splits the string into array by - symbol
+        // and then form the array of objects
+        // each key is the name of country
+        // each value is an array with names of cities
+        // [ 'us': ['ohio', 'washington' ] etc..
         const delivery = {};
         $('#deliveryCities').find('input:checked').each( (i, el) => {
             const data = el.id.split('-');
@@ -235,7 +241,7 @@ class ProductForm extends PromiseModal {
 
 
     onInputName() {
-        // checks the name value of the prosuct if the number of caharacters in the name value
+        // checks the name value of the product if the number of caharacters in the name value
         // less tham 5 the input got is-invalid class
         // user cant enter more than 15 charecters for the name value
         // so we keep users of annoying situations with filling the form
@@ -252,6 +258,8 @@ class ProductForm extends PromiseModal {
     onInputEmail() {
         // saves email value into store and give the input error class
         // I suppesed that  this is only one value that can be incorrect in the sotre
+        // because it only directly save the value
+        // than it check the value and gives the input is-valid or is-invalid class
         const el = $('#email')
         const isEmailValid = this.validation.email.test( el.val().toLowerCase() );
         this.productInformation.email = $('#email').val();
@@ -262,16 +270,18 @@ class ProductForm extends PromiseModal {
 
     onInputNumber(ev) {
         // keeps price and count values in the state as numbers
+        // it checks by the element id the input
+        // chooses the regExps for checking the value
         let count = ev.target.value.trim();
         const elementId = ev.target.id;
         const element = $(`#${elementId}`);
         const reg = elementId == 'count' ? this.validation.number : this.validation.price ;
         const reg2 = elementId == 'count' ? /\D/g : /[^0-9.]/g ;
 
-        count = count.replace(reg2, '');
-        
-        if (elementId === 'price') {
-            let first = count.indexOf('.');
+        count = count.replace(reg2, '');              // delets thesymbols from the value that are not alowes
+         
+        if (elementId === 'price') {                 // it user inters the price check dottas in the value it always allow the last dott in the value
+            let first = count.indexOf('.');          // and deletes aoo the previous dotts
             let last =  count.lastIndexOf('.');
 
             while( first !== last) {
@@ -283,17 +293,17 @@ class ProductForm extends PromiseModal {
             }
         }
 
-        if ( count.length > 14 ) {
-            element.val(count.slice(0,-1));
-            return;
+        if ( count.length > 14 ) {                 // as js has safe number I think it is a good idea to limit symbols in the value
+            element.val(count.slice(0,-1));        // i hope nine hundred ninety nine trillion usd will be enough for any product
+            return;                                
         }
 
         if (count !== '') {
-            if ( count.charAt(0) === '0') {
+            if ( count.charAt(0) === '0') {                         // the first digit can't be 0
                 count = count.slice(1);
             }
             if (reg.test(count) && count.length <= 15 ) {
-                // if the value is valid it daves it in the store and gives is-valid class
+                                                                  // if the value is valid it daves it in the store and gives is-valid class
                 element.val(count);
                 const number = Number( (+count).toFixed(2) );
                 this.productInformation[elementId] = number;
@@ -306,7 +316,7 @@ class ProductForm extends PromiseModal {
             element.val('')
         }
 
-        if ( element.val() === '' ) {
+        if ( element.val() === '' ) {                                 // gives is-valid or is-invalid value to the input
             this.formHighliter(false, $(`#${elementId}`));
         } else {
             this.formHighliter(true, $(`#${elementId}`));
@@ -315,8 +325,8 @@ class ProductForm extends PromiseModal {
 
 
     onChangePrice(ev) {
-        // shows price as number if the element loose focus
-        // $ 10,000.00 insted of 10000
+        // shows price as string if the element loose focus
+        // 10000 insted to $ 10,000.00
         const val = ev.target.value.trim();
         if (val !== '' && val !== "0") {
             ev.target.value = this.priceMaker(val, this.currency, this.priceDelimiter);

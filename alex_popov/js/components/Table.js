@@ -191,9 +191,7 @@ class Table extends Application {
     deletItem(data) {
         const index = this.state.items.findIndex( (el) => {
             return el.id === data.id;
-        })
-
-        console.log(index)
+        });
         
         setTimeout( () => {
             this.state.items.splice(index, 1);

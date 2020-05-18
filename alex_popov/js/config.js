@@ -1,10 +1,8 @@
 const config = {
-    key: '$2b$10$0rZLIDFGWOdXGdOc4n7HC.sqsisGH3VoH/BaqpmEZUG9GqnE0zKEi',
-    fileId:'5e9615d8435f5604bb4165f3',
     currency: '$',
     priceDelimiter: ','
 };
-
+// starting data
 const products = [
     {
         id: 1,
@@ -69,7 +67,7 @@ const products = [
         delivery: false
     }
 ];
-
+// information about cities and countries that are  avialible for elivery 
 const delivery = {
     'Russia': ['Moscow','Voronezh','Orel', 'StPetersburg','Novosibirsk','Ekaterinburg' ,'Samara','Omsk','Kazan','Chelyabinsk'],
     'Belorus': ['Minsk','Narva','Ghomel', 'Mogilev', 'Vitebsk', 'Grodno', 'Baranovichi', 'Pinsk','Borisov', 'Babruysk' ,'Brest'],

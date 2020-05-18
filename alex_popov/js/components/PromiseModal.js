@@ -1,11 +1,15 @@
 // this class is the parent class for all popup form
 // like form for confirmation of deleting and form for 
 // adding a new product, for view of a product
-// it has promiseYou method that will  pass into 
-// a new promise
+// it has promiseYou method that rturn a promise
+// when the promis will be resolvev or rejected
 
 // every pop up, class  that will extend this class
-// should have buttons that have #reject #resolve id
+// should have buttons that have #reject #resolve id properly
+// if a button was pressed promise will be rejected or resolved
+// If it is the resolve button it runs checking the form with 
+// the information about a new product
+
 // it watches for events and can resolve of reject promise by this way
 //render() method for adding html on the container and creates events on 
 // elements that should have such watchers
@@ -59,7 +63,8 @@ class PromiseModal extends Application{
         $('#reject').on('click', onReject.bind(this) );
         $('#resolve').on('click', onResolve.bind(this) );
 
-        function onResolve() {
+        function onResolve(ev) {
+            ev.preventDefault();
             this.check()
             if (this.answer.ready) {
                 this.off();
